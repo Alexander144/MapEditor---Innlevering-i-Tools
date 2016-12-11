@@ -27,6 +27,7 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    TextWrapping="Wrap" />
+        <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="46,49,0,0" VerticalAlignment="Top" Width="100" Source="Sprites/mini.jpg"/>
 
     </Grid>
 </Window>
