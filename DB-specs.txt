@@ -1,0 +1,14 @@
+DB inneholder
+
+Table Tiles
+Table TraverseInfo
+Table Path
+Table Position
+
+
+Tiles: int ID (PK), pathID(FK), int traverseInfoID (FK), PositionID (FK)
+TraverseInfo: int ID(PK), int topLeft, int topMiddle, int topRight .....
+Path: int ID(PK), string Path
+Position: int ID(PK), int posX, int posY
+
+
