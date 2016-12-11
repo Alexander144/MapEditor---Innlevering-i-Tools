@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d ignore"
-        Height="300"
-        Width="300"
+        Height="768"
+        Width="1024"
         Title="MVVM Light Application"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
-    
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,14 +21,8 @@
 
     <Grid x:Name="LayoutRoot">
 
-        <TextBlock FontSize="36"
-                   FontWeight="Bold"
-                   Foreground="Purple"
-                   Text="{Binding WelcomeTitle}"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   TextWrapping="Wrap" />
-        <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="46,49,0,0" VerticalAlignment="Top" Width="100" Source="Sprites/mini.jpg"/>
+        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="557" Margin="20,40,0,0" VerticalAlignment="Top" Width="685"/>
+
 
     </Grid>
 </Window>
