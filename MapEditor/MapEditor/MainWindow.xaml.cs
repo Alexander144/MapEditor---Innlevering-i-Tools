@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
+using System.IO;
 
 namespace MapEditor
 {
@@ -38,6 +39,24 @@ namespace MapEditor
 
             InitGrid();
 
+
+
+
+            //Directory.GetCurrentDirectory();
+
+            //DirectoryTreeView.
+
+
+            foreach (string s in Directory.GetLogicalDrives())
+            {
+                TreeViewItem item = new TreeViewItem();
+                item.Header = s;
+                item.Tag = s;
+                item.FontWeight = FontWeights.Normal;
+                item.Items.Add(new object());
+                item.Expanded += new RoutedEventHandler(folder_Expanded);
+                DirectoryTreeView.Items.Add(item);
+            }
 
 
         }
@@ -98,5 +117,27 @@ namespace MapEditor
             }
         }
 
+        void folder_Expanded(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem item = (TreeViewItem)sender;
+            if (item.Items.Count == 1)
+            {
+                item.Items.Clear();
+                try
+                {
+                    foreach (string s in Directory.GetDirectories(item.Tag.ToString()))
+                    {
+                        TreeViewItem subitem = new TreeViewItem();
+                        subitem.Header = s.Substring(s.LastIndexOf("\\") + 1);
+                        subitem.Tag = s;
+                        subitem.FontWeight = FontWeights.Normal;
+                        subitem.Items.Add(new object());
+                        subitem.Expanded += new RoutedEventHandler(folder_Expanded);
+                        item.Items.Add(subitem);
+                    }
+                }
+                catch (Exception) { }
+            }
+        }
     }
 }
