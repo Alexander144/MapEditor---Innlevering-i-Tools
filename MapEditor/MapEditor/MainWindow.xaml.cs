@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MapEditor
 {
@@ -19,6 +21,9 @@ namespace MapEditor
         protected int columnWidth = 50;
         protected int rowHeight = 50;
         protected string[,] fields;
+
+        protected TreeViewItem lastHierarchyImageClicked;
+        private List<Tile> tileList;
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -37,27 +42,11 @@ namespace MapEditor
                 }
             }
 
+
+            tileList = new List<Tile>();
+
             InitGrid();
-
-
-
-
-            //Directory.GetCurrentDirectory();
-
-            //DirectoryTreeView.
-
-
-            foreach (string s in Directory.GetLogicalDrives())
-            {
-                TreeViewItem item = new TreeViewItem();
-                item.Header = s;
-                item.Tag = s;
-                item.FontWeight = FontWeights.Normal;
-                item.Items.Add(new object());
-                item.Expanded += new RoutedEventHandler(folder_Expanded);
-                DirectoryTreeView.Items.Add(item);
-            }
-
+            InitTreeView();
 
         }
 
@@ -82,20 +71,29 @@ namespace MapEditor
                     img.AddHandler(MouseLeaveEvent, new RoutedEventHandler(MouseExitingTile));
                     grid.Children.Add(img);
                 }
-                /*
-                {
-                    Rectangle rect = new Rectangle();
-                    rect.Fill = someColor;
-                    grid.Children.Add(rect);
-                }
-                */
             }
-
 
             Canvas.SetLeft(grid, 0);
             Canvas.SetTop(grid, 0);
             MainCanvas.Children.Add(grid);
         }
+
+        public void InitTreeView()
+        {
+            foreach (string s in Directory.GetLogicalDrives())
+            {
+                TreeViewItem item = new TreeViewItem();
+                item.Header = s;
+                item.Tag = s;
+                item.FontWeight = FontWeights.Normal;
+                item.Items.Add(new object());
+                item.Expanded += new RoutedEventHandler(folder_Expanded);
+                DirectoryTreeView.Items.Add(item);
+            }
+        }
+
+
+        //Events
 
         private void MouseHoveringOverTile(object sender, RoutedEventArgs e)
         {
@@ -151,6 +149,8 @@ namespace MapEditor
                             subitem.Tag = s;
                             subitem.FontWeight = FontWeights.Normal;
 
+                            subitem.AddHandler(PreviewMouseLeftButtonDownEvent, new RoutedEventHandler(MouseClickedOnFileName));
+
                             item.Items.Add(subitem);
                         }
                     
@@ -159,6 +159,70 @@ namespace MapEditor
                 }
             }
 
+        }
+
+        private void MouseClickedOnFileName(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("User clicked on image");
+            if (sender.GetType() == typeof(TreeViewItem))
+            {
+                TreeViewItem senderTreeViewItem = (TreeViewItem)sender;
+                lastHierarchyImageClicked = senderTreeViewItem;
+
+            }
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            if (lastHierarchyImageClicked != null)
+            {
+                if (!tileList.Any())
+                {
+                    Image img = new Image();
+                    BitmapImage imageBitmap = new BitmapImage(new Uri(lastHierarchyImageClicked.Tag as string, UriKind.Absolute));
+                    Tile t = new Tile(lastHierarchyImageClicked.Header as string, lastHierarchyImageClicked.Tag as string, new Image());
+                    t.img.Source = imageBitmap;
+
+
+                    tileList.Add(t);
+                    ImageViewPanel.Children.Add(t.img);
+                    Console.WriteLine(tileList[0].name);
+                } else
+                {
+                    bool tileIsInList = false;
+
+                    foreach (Tile t in tileList)
+                    {
+
+                        Console.WriteLine(t.path);
+                        Console.WriteLine(lastHierarchyImageClicked.Tag as string);
+                        if (t.path == lastHierarchyImageClicked.Tag as string)
+                        {
+                            tileIsInList = true;
+                            break;
+                        }
+                    }
+                    if (!tileIsInList)
+                    {
+                        Image img = new Image();
+                        BitmapImage imageBitmap = new BitmapImage(new Uri(lastHierarchyImageClicked.Tag as string, UriKind.Absolute));
+                        Tile t = new Tile(lastHierarchyImageClicked.Header as string, lastHierarchyImageClicked.Tag as string, new Image());
+                        t.img.Source = imageBitmap;
+
+                        Console.WriteLine("Ye");
+
+
+                        tileList.Add(t);
+                        ImageViewPanel.Children.Add(t.img);
+                    }
+                }
+                /*
+                foreach(Tile t in tileList)
+                {
+                    if (lastHierarchyImageClicked == t.img)
+                }
+                */
+            }
         }
     }
 }
