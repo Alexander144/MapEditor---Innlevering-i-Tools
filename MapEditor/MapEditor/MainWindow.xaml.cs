@@ -25,6 +25,10 @@ namespace MapEditor
         protected TreeViewItem lastHierarchyImageClicked;
         private List<Tile> tileList;
 
+        private Tile currentPreviewTile;
+
+        private Point mouseDragStartingPosition;
+
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
@@ -38,7 +42,7 @@ namespace MapEditor
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    fields[i, j] = "Sprites/mini.jpg";
+                    fields[i, j] = "Sprites/defaultTile.png";
                 }
             }
 
@@ -209,8 +213,6 @@ namespace MapEditor
                     {
                         Tile t = CreateTileFromTreeViewItem(false);
                         tileList.Add(t);
-
-                       
                         ImageViewPanel.Children.Add(t.img);
 
 
@@ -218,18 +220,11 @@ namespace MapEditor
                         TextPanel.Children.Add(textBlock);
                     }
                 }
-                /*
-                foreach(Tile t in tileList)
-                {
-                    if (lastHierarchyImageClicked == t.img)
-                }
-                */
             }
         }
 
         private Tile CreateTileFromTreeViewItem(bool isLeftmostImage)
         {
-            Image img = new Image();
             BitmapImage imageBitmap = new BitmapImage(new Uri(lastHierarchyImageClicked.Tag as string, UriKind.Absolute));
             Tile t = new Tile(lastHierarchyImageClicked.Header as string, lastHierarchyImageClicked.Tag as string, new Image());
             t.img.Source = imageBitmap;
@@ -237,8 +232,9 @@ namespace MapEditor
             Console.WriteLine("Ye");
             t.img.Height = 70;
             t.img.Width = 70;
+            t.img.AddHandler(PreviewMouseLeftButtonDownEvent, new RoutedEventHandler(MouseClickedOnCollectionImage));
 
-            if(isLeftmostImage)
+            if (isLeftmostImage)
             {
                 t.img.Margin = new Thickness(0, 0, 0, 0);
             }
@@ -270,6 +266,58 @@ namespace MapEditor
 
             return textBlock;
 
+        }
+
+        private void MouseClickedOnCollectionImage(object sender, RoutedEventArgs e)
+        {
+            PreviewImage.Source = (sender as Image).Source;
+
+            PreviewImage.AddHandler(PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(MouseClickedOnPreviewImage));
+            PreviewImage.AddHandler(PreviewMouseMoveEvent, new MouseEventHandler(MouseDraggingPreviewImage));
+
+
+            foreach (Tile t in tileList)
+            {
+                if (PreviewImage.Source.Equals(t.img.Source))
+                {
+                    currentPreviewTile = t;
+                }
+            }
+
+
+        }
+
+        private void MouseClickedOnPreviewImage(object sender, MouseButtonEventArgs e)
+        {
+            mouseDragStartingPosition = e.GetPosition(null);
+        }
+
+        private void MouseDraggingPreviewImage(object sender, MouseEventArgs e)
+        {
+            // Get the current mouse position
+            Point mousePos = e.GetPosition(null);
+            Vector diff = mouseDragStartingPosition - mousePos;
+
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+            {
+
+                /*
+                // Get the dragged ListViewItem
+                ListView listView = sender as ListView;
+                ListViewItem listViewItem =
+                    FindAnchestor<ListViewItem>((DependencyObject)e.OriginalSource);
+
+                // Find the data behind the ListViewItem
+                Contact contact = (Contact)listView.ItemContainerGenerator.
+                    ItemFromContainer(listViewItem);
+
+                // Initialize the drag & drop operation
+                DataObject dragData = new DataObject("myFormat", contact);
+                DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+            */
+            }
         }
     }
 }
