@@ -178,14 +178,17 @@ namespace MapEditor
             {
                 if (!tileList.Any())
                 {
-                    Image img = new Image();
-                    BitmapImage imageBitmap = new BitmapImage(new Uri(lastHierarchyImageClicked.Tag as string, UriKind.Absolute));
-                    Tile t = new Tile(lastHierarchyImageClicked.Header as string, lastHierarchyImageClicked.Tag as string, new Image());
-                    t.img.Source = imageBitmap;
+                    Tile t = CreateTileFromTreeViewItem(true);
 
 
                     tileList.Add(t);
                     ImageViewPanel.Children.Add(t.img);
+
+                    TextBlock textBlock = CreateTextBlockFromImageName(true, lastHierarchyImageClicked.Header as string);
+                    TextPanel.Children.Add(textBlock);
+                    
+
+
                     Console.WriteLine(tileList[0].name);
                 } else
                 {
@@ -204,16 +207,15 @@ namespace MapEditor
                     }
                     if (!tileIsInList)
                     {
-                        Image img = new Image();
-                        BitmapImage imageBitmap = new BitmapImage(new Uri(lastHierarchyImageClicked.Tag as string, UriKind.Absolute));
-                        Tile t = new Tile(lastHierarchyImageClicked.Header as string, lastHierarchyImageClicked.Tag as string, new Image());
-                        t.img.Source = imageBitmap;
-
-                        Console.WriteLine("Ye");
-
-
+                        Tile t = CreateTileFromTreeViewItem(false);
                         tileList.Add(t);
+
+                       
                         ImageViewPanel.Children.Add(t.img);
+
+
+                        TextBlock textBlock = CreateTextBlockFromImageName(true, lastHierarchyImageClicked.Header as string);
+                        TextPanel.Children.Add(textBlock);
                     }
                 }
                 /*
@@ -223,6 +225,51 @@ namespace MapEditor
                 }
                 */
             }
+        }
+
+        private Tile CreateTileFromTreeViewItem(bool isLeftmostImage)
+        {
+            Image img = new Image();
+            BitmapImage imageBitmap = new BitmapImage(new Uri(lastHierarchyImageClicked.Tag as string, UriKind.Absolute));
+            Tile t = new Tile(lastHierarchyImageClicked.Header as string, lastHierarchyImageClicked.Tag as string, new Image());
+            t.img.Source = imageBitmap;
+
+            Console.WriteLine("Ye");
+            t.img.Height = 70;
+            t.img.Width = 70;
+
+            if(isLeftmostImage)
+            {
+                t.img.Margin = new Thickness(0, 0, 0, 0);
+            }
+            else
+            {
+                t.img.Margin = new Thickness(5, 0, 0, 0);
+            }
+
+            return t;
+        }
+
+        private TextBlock CreateTextBlockFromImageName(bool isLeftmostText, string imageName)
+        {
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = imageName;
+            textBlock.Height = 25;
+            textBlock.Width = 75;
+
+            textBlock.Padding = new Thickness(10, 0, 0, 0);
+
+            if (isLeftmostText)
+            {
+                textBlock.Margin = new Thickness(0, 0, 0, 0);
+            }
+            else
+            {
+                textBlock.Margin = new Thickness(5, 0, 0, 0);
+            }
+
+            return textBlock;
+
         }
     }
 }

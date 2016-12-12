@@ -54,8 +54,20 @@
                 </Style>
             </TreeView.Resources>
         </TreeView>
-        <WrapPanel x:Name="ImageViewPanel" HorizontalAlignment="Left" Height="123" Margin="20,0,0,33" VerticalAlignment="Bottom" Width="500"/>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="146" Margin="20,0,0,10" VerticalAlignment="Bottom" Width="500">
+            <Grid Height="130" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="ImageViewPanel" HorizontalAlignment="Left" Height="105" Margin="0,0,0,0" VerticalAlignment="Top" Width="Auto" Orientation="Horizontal"/>
+                <StackPanel x:Name="TextPanel" HorizontalAlignment="Left" Height="25" Margin="0,0,0,-24" VerticalAlignment="Bottom" Width="Auto" Orientation="Horizontal"/>
+            </Grid>
+        </ScrollViewer>
         <Button x:Name="button" Content="Add image file to project" HorizontalAlignment="Left" Margin="620,520,0,0" VerticalAlignment="Top" Width="376" Click="button_Click"/>
+
 
     </Grid>
 </Window>
