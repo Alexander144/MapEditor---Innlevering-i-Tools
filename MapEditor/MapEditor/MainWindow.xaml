@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:local="clr-namespace:WPF_Explorer_Tree"
         mc:Ignorable="d ignore"
         Height="768"
         Width="1024"
@@ -28,7 +29,6 @@
                   Margin="0,40,20,0"
                   VerticalAlignment="Top"
                   Width="376"
-                  
                   Background="#FFFFFFFF"
                   BorderBrush="#FFFFFFFF"
                   Foreground="#FFFFFFFF">
@@ -38,12 +38,15 @@
                         <Setter.Value>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Name="img"
-                                   Width="20"
-                                   Height="20"
-                                   Stretch="Fill"
-                                   Source="Icons/folder.ico"/>
-                                    <TextBlock Text="{Binding}" Margin="5,0" />
+                                    <Image Name="img"  Width="20" Height="20" Stretch="Fill"
+    Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+    AncestorType={x:Type TreeViewItem}},
+    Path=Tag,
+    Converter={x:Static local:HeaderToImageConverter.Instance}}"
+/>
+                                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+    AncestorType={x:Type TreeViewItem}},
+    Path=Header}" Margin="5,0" />
                                 </StackPanel>
                             </DataTemplate>
                         </Setter.Value>

@@ -53,6 +53,7 @@ namespace MapEditor.ViewModel
 			{
 				return ServiceLocator.Current.GetInstance<MainViewModel>();
 			}
+
 		}
 
 		/// <summary>

@@ -1,5 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using MapEditor.Model;
+using System;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace MapEditor.ViewModel
 {
@@ -55,11 +59,11 @@ namespace MapEditor.ViewModel
 				});
 		}
 
-		////public override void Cleanup()
-		////{
-		////    // Clean up if needed
+        ////public override void Cleanup()
+        ////{
+        ////    // Clean up if needed
 
-		////    base.Cleanup();
-		////}
-	}
+        ////    base.Cleanup();
+        ////}
+    }
 }

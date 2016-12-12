@@ -119,25 +119,46 @@ namespace MapEditor
 
         void folder_Expanded(object sender, RoutedEventArgs e)
         {
-            TreeViewItem item = (TreeViewItem)sender;
-            if (item.Items.Count == 1)
+            if (sender.GetType() == typeof(TreeViewItem))
             {
-                item.Items.Clear();
-                try
+                TreeViewItem item = (TreeViewItem)sender;
+                if (item.Items.Count == 1)
                 {
-                    foreach (string s in Directory.GetDirectories(item.Tag.ToString()))
+                    item.Items.Clear();
+                    try
                     {
-                        TreeViewItem subitem = new TreeViewItem();
-                        subitem.Header = s.Substring(s.LastIndexOf("\\") + 1);
-                        subitem.Tag = s;
-                        subitem.FontWeight = FontWeights.Normal;
-                        subitem.Items.Add(new object());
-                        subitem.Expanded += new RoutedEventHandler(folder_Expanded);
-                        item.Items.Add(subitem);
+                        foreach (string s in Directory.GetDirectories(item.Tag.ToString()))
+                        {
+                            TreeViewItem subitem = new TreeViewItem();
+                            subitem.Header = s.Substring(s.LastIndexOf("\\") + 1);
+                            subitem.Tag = s;
+                            subitem.FontWeight = FontWeights.Normal;
+                            subitem.Items.Add(new object());
+                            subitem.Expanded += new RoutedEventHandler(folder_Expanded);
+                            item.Items.Add(subitem);
+                        }
+                        
+                        DirectoryInfo dinfo = new DirectoryInfo(item.Tag.ToString());
+                        FileInfo[] Files = dinfo.GetFiles("*.png");
+
+
+                        foreach (FileInfo file in Files)
+                        {
+
+                            TreeViewItem subitem = new TreeViewItem();
+                            string s = file.FullName;
+                            subitem.Header = s.Substring(s.LastIndexOf("\\") + 1);
+                            subitem.Tag = s;
+                            subitem.FontWeight = FontWeights.Normal;
+
+                            item.Items.Add(subitem);
+                        }
+                    
                     }
+                    catch (Exception) { }
                 }
-                catch (Exception) { }
             }
+
         }
     }
 }
