@@ -30,6 +30,9 @@ namespace MapEditor
 
         private Point mouseDragStartingPosition;
 
+        private Image currentPreviewImg;
+        private RotateTransform rotate;
+
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
@@ -357,28 +360,47 @@ namespace MapEditor
 
         private void DroppingOnTile(object sender, DragEventArgs e)
         {
-           (sender as Image).Source = (e.Data.GetData("image") as Image).Source;
+            Image tempImage = new Image();
+            
+            (sender as Image).Source = (e.Data.GetData("image") as Image).Source;
+            (sender as Image).RenderTransformOrigin = (e.Data.GetData("image") as Image).RenderTransformOrigin;
+            (sender as Image).RenderTransform = (e.Data.GetData("image") as Image).RenderTransform;
         }
 
         private void RotateButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (PreviewImage.Source != null)
             {
                 PreviewImage.RenderTransformOrigin = new Point(0.5, 0.5);
-                double currentRotationAngle = RadiansToDegrees(Math.Acos(PreviewImage.RenderTransform.Value.M11));
 
-
-                Console.WriteLine(currentRotationAngle);
-
-                int signSwap = 0;
-                if (currentRotationAngle >= 180)
+                if (currentPreviewImg == null)
                 {
-                    signSwap = 1;
-                } else
-                {
-                    signSwap = -1;
+                    Console.WriteLine("null");
+                    currentPreviewImg = new Image();
+                    currentPreviewImg.Source = PreviewImage.Source;
+                    rotate = new RotateTransform(-90);
                 }
-                PreviewImage.RenderTransform = new RotateTransform(signSwap * currentRotationAngle - 90);
+                else
+                {
+
+                    Console.WriteLine(currentPreviewImg.Source.ToString() + " - " + PreviewImage.Source.ToString());
+                    if (currentPreviewImg.Source != PreviewImage.Source)
+                    {
+                        Console.WriteLine("Check");
+                        rotate.Angle = -90;
+                        //currentPreviewImg = new Image();
+                        currentPreviewImg.Source = PreviewImage.Source;
+                    }
+                    else
+                    {
+                        Console.WriteLine("What?");
+                        rotate.Angle -= 90;
+                    }
+                }
+
+                PreviewImage.RenderTransform = rotate;
+                
             }
         }
 
