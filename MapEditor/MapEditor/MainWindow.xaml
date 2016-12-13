@@ -39,14 +39,13 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Name="img"  Width="20" Height="20" Stretch="Fill"
-    Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-    AncestorType={x:Type TreeViewItem}},
-    Path=Tag,
-    Converter={x:Static local:HeaderToImageConverter.Instance}}"
-/>
+                                           Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                AncestorType={x:Type TreeViewItem}},
+                                                Path=Tag,
+                                                Converter={x:Static local:HeaderToImageConverter.Instance}}"/>
                                     <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-    AncestorType={x:Type TreeViewItem}},
-    Path=Header}" Margin="5,0" />
+                                                AncestorType={x:Type TreeViewItem}},
+                                                Path=Header}" Margin="5,0" />
                                 </StackPanel>
                             </DataTemplate>
                         </Setter.Value>
@@ -71,6 +70,9 @@
             <StackPanel Orientation="Horizontal">
                 <Image x:Name="PreviewImage" HorizontalAlignment="Left" Width="100" Height="100" Margin="14,0,0,0"/>
                 <Image x:Name="TileInfoImage" HorizontalAlignment="Left" Width="100" Height="100" Margin="14,0,0,0"/>
+                <Button x:Name="RotateButton" HorizontalAlignment="Right" Width="50" Height="50" Margin="50, 0, 0, 0" Click="RotateButton_Click">
+                    <Image Source="Icons/rotate.png" />
+                </Button>
             </StackPanel>
         </Border>
 

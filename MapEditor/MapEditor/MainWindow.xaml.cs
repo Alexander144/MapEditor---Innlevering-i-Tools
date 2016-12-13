@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 
 namespace MapEditor
 {
@@ -71,8 +72,17 @@ namespace MapEditor
 
                     img.Source = imageBitmap;
                     img.Stretch = System.Windows.Media.Stretch.Fill;
+
+
                     img.AddHandler(MouseEnterEvent, new RoutedEventHandler(MouseHoveringOverTile));
                     img.AddHandler(MouseLeaveEvent, new RoutedEventHandler(MouseExitingTile));
+
+                    img.AllowDrop = true;
+                    img.AddHandler(DragEnterEvent, new DragEventHandler(DragEnteringTile));
+                    img.AddHandler(DragLeaveEvent, new DragEventHandler(DragLeavingTile));
+                    img.AddHandler(DropEvent, new DragEventHandler(DroppingOnTile));
+
+
                     grid.Children.Add(img);
                 }
             }
@@ -270,6 +280,8 @@ namespace MapEditor
 
         private void MouseClickedOnCollectionImage(object sender, RoutedEventArgs e)
         {
+            PreviewImage.RenderTransform = new RotateTransform(0);
+
             PreviewImage.Source = (sender as Image).Source;
 
             PreviewImage.AddHandler(PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(MouseClickedOnPreviewImage));
@@ -303,6 +315,12 @@ namespace MapEditor
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
 
+                Image img = sender as Image;
+
+                DataObject dragData = new DataObject("image", img);
+
+                DragDrop.DoDragDrop(img, dragData, DragDropEffects.Move);
+
                 /*
                 // Get the dragged ListViewItem
                 ListView listView = sender as ListView;
@@ -318,6 +336,60 @@ namespace MapEditor
                 DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
             */
             }
+        }
+
+
+        private void DragEnteringTile(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent("image") || sender == e.Source)
+            {
+                e.Effects = DragDropEffects.None;
+            }
+
+            Console.WriteLine("TileHovering");
+            (sender as Image).Opacity = 0.5;
+        }
+
+        private void DragLeavingTile(object sender, DragEventArgs e)
+        {
+            (sender as Image).Opacity = 1.0;
+        }
+
+        private void DroppingOnTile(object sender, DragEventArgs e)
+        {
+           (sender as Image).Source = (e.Data.GetData("image") as Image).Source;
+        }
+
+        private void RotateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (PreviewImage.Source != null)
+            {
+                PreviewImage.RenderTransformOrigin = new Point(0.5, 0.5);
+                double currentRotationAngle = RadiansToDegrees(Math.Acos(PreviewImage.RenderTransform.Value.M11));
+
+
+                Console.WriteLine(currentRotationAngle);
+
+                int signSwap = 0;
+                if (currentRotationAngle >= 180)
+                {
+                    signSwap = 1;
+                } else
+                {
+                    signSwap = -1;
+                }
+                PreviewImage.RenderTransform = new RotateTransform(signSwap * currentRotationAngle - 90);
+            }
+        }
+
+        private double DegreesToRadians(double angle)
+        {
+            return Math.PI * angle / 180.0;
+        }
+
+        private double RadiansToDegrees(double angle)
+        {
+            return angle * (180.0 / Math.PI);
         }
     }
 }
