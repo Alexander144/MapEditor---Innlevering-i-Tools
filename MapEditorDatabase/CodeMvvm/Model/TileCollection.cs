@@ -6,13 +6,13 @@ using System.Data.Linq;
 
 namespace CodeMvvm.Model
 {
-	public class TileArray:ObservableCollection<Tile>
+	public class TileCollection:ObservableCollection<Tile>
 	{
-		private MapEditorLinq l_db;
-		public TileArray() {
+		private LinqToSQLClassesDataContext l_db;
+		public TileCollection() {
 			
 		}
-		public void GetData(MapEditorLinq db)
+		public void GetData(LinqToSQLClassesDataContext db)
 		{
 			l_db = db;
 			
@@ -33,7 +33,6 @@ namespace CodeMvvm.Model
 		}
 		public void Save()
 		{
-		
 			l_db.SubmitChanges();
 		}
 	}

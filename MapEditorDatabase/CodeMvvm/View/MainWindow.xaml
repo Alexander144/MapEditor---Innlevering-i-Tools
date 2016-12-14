@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.ignore.com"
+        xmlns:local="clr-namespace:WPF_Explorer_Tree"
         mc:Ignorable="d ignore"
-        d:DesignHeight="311"
-        d:DesignWidth="525"
+        Height="768"
+        Width="1024"
         Title="Pathfinder Character Creator"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
 
@@ -17,10 +18,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-
+    <!--
     <Grid x:Name="LayoutRoot" Margin="10">
-        <!-- Setup the layout as a table with three rows and two columns -->
-        <Grid.RowDefinitions>
+    
+    <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -29,48 +30,105 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
+    -->
         <!-- 
         Fill the entire first row (span two columns) with our general info.
         A StackPanel will layout all its children either horizontal or vertical using their desired size
         -->
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+       <!-- <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal"> -->
             <!--
             {Binding CharacterName} is a short hand version for writing {Binding Path=CharacterName} where Path is a property
             Bindings have many other usefull properties like: Converter, ConverterParameter, Mode, ValidationRules, StringFormat etc.
             -->
+        <!--
+            <TextBlock Text="ID" />
+            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding TileMap[0].Id}" />
+            <TextBlock Text="PosX" />
+            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding TileMap[0].PositionX}" />
+            <TextBlock Text="PosY" />
+            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding TileMap[0].PositionY}" />
 
+
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,10,0,-7" Grid.RowSpan="2">
             <TextBlock Text="ID" />
             <TextBox Margin="10,0,0,0" Width="128" Text="{Binding FrontTiless[0].Id}" />
             <TextBlock Text="PosX" />
             <TextBox Margin="10,0,0,0" Width="128" Text="{Binding FrontTiless[0].posX}" />
             <TextBlock Text="PosY" />
             <TextBox Margin="10,0,0,0" Width="128" Text="{Binding FrontTiless[0].posY}" />
-
-
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,10,0,-7" Grid.RowSpan="2">
-            <TextBlock Text="ID" />
-            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding FrontTiless[1].Id}" />
-            <TextBlock Text="PosX" />
-            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding FrontTiless[1].posX}" />
-            <TextBlock Text="PosY" />
-            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding FrontTiless[1].posY}" />
         </StackPanel>
 
         <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-            <!-- Column width of * means it will fill the remaining space, two columns with * will always be 50/50 -->
-            <Grid.ColumnDefinitions>
+           
+    <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions> -->
 
-            <!-- 
-            Controls are (almost) always stretch aligned both horizontally and vertically as default,
-            giving them a fixed size in any dimension will center the control in the given dimension
-            -->
+    <!--
             <Button Grid.Column="0" Content="Save" Width="150" Command="{Binding SaveCommand}" Click="Button_Click" Margin="50,39,50,-39" />
             <Button Grid.Column="1" Content="Cancel" Width="150" Command="{Binding CancelCommand}" Margin="50,39,49,-39" />
         </Grid>
+    </Grid>-->
+
+
+    <Grid x:Name="LayoutRoot">
+
+        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="500" Margin="20,40,0,0" VerticalAlignment="Top" Width="500"/>
+        <TreeView x:Name="DirectoryTreeView"
+                  HorizontalAlignment="Right"
+                  Height="450"
+                  Margin="0,40,20,0"
+                  VerticalAlignment="Top"
+                  Width="376"
+                  Background="#FFFFFFFF"
+                  BorderBrush="#FFFFFFFF"
+                  Foreground="#FFFFFFFF">
+            <TreeView.Resources>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Name="img"  Width="20" Height="20" Stretch="Fill"
+                                           Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                AncestorType={x:Type TreeViewItem}},
+                                                Path=Tag,
+                                                Converter={x:Static local:HeaderToImageConverter.Instance}}"/>
+                                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                AncestorType={x:Type TreeViewItem}},
+                                                Path=Header}" Margin="5,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TreeView.Resources>
+        </TreeView>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="146" Margin="20,0,0,10" VerticalAlignment="Bottom" Width="500">
+            <Grid Height="130" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="ImageViewPanel" HorizontalAlignment="Left" Height="105" Margin="0,0,0,0" VerticalAlignment="Top" Width="Auto" Orientation="Horizontal"/>
+                <StackPanel x:Name="TextPanel" HorizontalAlignment="Left" Height="25" Margin="0,0,0,-24" VerticalAlignment="Bottom" Width="Auto" Orientation="Horizontal"/>
+            </Grid>
+        </ScrollViewer>
+        <Button x:Name="button" Content="Add image file to project" HorizontalAlignment="Left" Margin="620,520,0,0" VerticalAlignment="Top" Width="376" Click="button_Click"/>
+        <Border x:Name="PreviewBorder" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="125" Margin="620,581,0,0" VerticalAlignment="Top" Width="376">
+            <StackPanel Orientation="Horizontal">
+                <Image x:Name="PreviewImage" HorizontalAlignment="Left" Width="100" Height="100" Margin="14,0,0,0"/>
+                <Image x:Name="TileInfoImage" HorizontalAlignment="Left" Width="100" Height="100" Margin="14,0,0,0"/>
+                <Button x:Name="RotateButton" HorizontalAlignment="Right" Width="50" Height="50" Margin="50, 0, 0, 0" Click="RotateButton_Click">
+                    <Image Source="Icons/rotate.png" />
+                </Button>
+            </StackPanel>
+        </Border>
+
+
     </Grid>
 </Window>

@@ -19,69 +19,22 @@ namespace CodeMvvm.ViewModel
 	public class MainViewModel : ViewModelBase
 	{
 		#region Properties
-		public TileArray FrontTiless
+		public TileCollection TileMap
 		{
 			get
 			{
-				return ArrayforTiles;
+				return _tileMap;
 			}
 
 			set
 			{
-				if (ArrayforTiles != value)
+				if (_tileMap != value)
 				{
-				
-					ArrayforTiles = value;
-					RaisePropertyChanged("FrontTiless");
+					_tileMap = value;
+					RaisePropertyChanged("TileMap");
 				}
 			}
 		}
-
-		/*public int TileId {
-	get {
-		return ArrayforTiles[0].Id;
-	}
-
-	set {
-		if (ArrayforTiles[0].Id != value) {
-			ArrayforTiles[0].Id = value;
-			RaisePropertyChanged();
-		}
-	}
-}
-public int TileposX
-{
-	get
-	{
-		return (int)ArrayforTiles[0].posX;
-	}
-
-	set
-	{
-		if (ArrayforTiles[0].posX != value)
-		{
-			ArrayforTiles[0].posX = value;
-			RaisePropertyChanged();
-		}
-	}
-}
-public int TileposY
-{
-	get
-	{
-		return (int)ArrayforTiles[0].posY;
-	}
-
-	set
-	{
-		if (ArrayforTiles[0].posY != value)
-		{
-			ArrayforTiles[0].posY = value;
-			RaisePropertyChanged();
-		}
-	}
-}
-*/
 		#endregion
 
 		#region Commands
@@ -98,8 +51,8 @@ public int TileposY
 
 		#region Private fields
 
-		private TileArray ArrayforTiles;
-		private MapEditorLinq db;
+		private TileCollection _tileMap;
+		private LinqToSQLClassesDataContext _db;
 
 		#endregion
 
@@ -108,15 +61,14 @@ public int TileposY
 		/// </summary>
 		public MainViewModel() {
 			GetDataFromSQL();
-			
 			CreateCommands();
 		}
 
 		private void GetDataFromSQL()
 		{
-			db = new MapEditorLinq();
-			FrontTiless = new TileArray();
-			FrontTiless.GetData(db);
+			_db = new LinqToSQLClassesDataContext();
+			TileMap = new TileCollection();
+			TileMap.GetData(_db);
 		}
 
 		private void CreateCommands() {
@@ -126,24 +78,16 @@ public int TileposY
 		}
 
 		private bool CanSave() {
-			return (FrontTiless != null);
+			return (TileMap != null);
 		}
 
 		public void Save() {
-			FrontTiless.Save();
+			TileMap.Save();
 		}
 
 		public void Cancel() {
-			db.Refresh(RefreshMode.OverwriteCurrentValues, FrontTiless);
-			FrontTiless.GetData(db);
-
-			//ArrayforTiles.Clear();
-			//FrontTiless.posX = ArrayforTiles[0].posX;
-			//var lastSavedCharacter = new Tile();
-			
-			//TileId = lastSavedCharacter.Id;
-			//Race = lastSavedCharacter.Race;
-			// TODO: Add more "reset fields" code here.
+			_db.Refresh(RefreshMode.OverwriteCurrentValues, TileMap);
+			TileMap.GetData(_db);
 		}
 	}
 }

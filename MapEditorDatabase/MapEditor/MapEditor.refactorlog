@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="96ec7447-4d2c-4718-a927-4f7f6cac9131" ChangeDateTime="12/14/2016 16:04:21">
+    <Property Name="ElementName" Value="[dbo].[Tiles].[posX]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tiles]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PositionX" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cad26ae1-c30c-4443-9303-30557c6d5977" ChangeDateTime="12/14/2016 16:04:24">
+    <Property Name="ElementName" Value="[dbo].[Tiles].[posY]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tiles]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PositionY" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4e4dab9f-f6e2-4728-8a52-0df8fce6f590" ChangeDateTime="12/14/2016 16:04:27">
+    <Property Name="ElementName" Value="[dbo].[Tiles].[path]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tiles]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Path" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a71d55b2-ee53-41c8-af8c-296c259599ef" ChangeDateTime="12/14/2016 16:05:56">
+    <Property Name="ElementName" Value="[dbo].[Tiles].[TopRight]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tiles]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TopMiddle" />
+  </Operation>
+</Operations>
