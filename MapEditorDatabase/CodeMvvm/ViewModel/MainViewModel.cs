@@ -7,6 +7,7 @@ using System;
 using System.Data.Linq;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Net.NetworkInformation;
 
 namespace CodeMvvm.ViewModel
 {
@@ -16,7 +17,7 @@ namespace CodeMvvm.ViewModel
 	/// See http://www.galasoft.ch/mvvm
 	/// </para>
 	/// </summary>
-	public class MainViewModel : ViewModelBase
+	public class MainViewModel : UserViewModel
 	{
 		#region Properties
 		public TileCollection TileMap
@@ -31,7 +32,7 @@ namespace CodeMvvm.ViewModel
 				if (_tileMap != value)
 				{
 					_tileMap = value;
-					RaisePropertyChanged("TileMap");
+					RaisePropertyChanged("_tileMap");
 				}
 			}
 		}
@@ -53,6 +54,7 @@ namespace CodeMvvm.ViewModel
 
 		private TileCollection _tileMap;
 		private LinqToSQLClassesDataContext _db;
+	
 
 		#endregion
 
@@ -64,9 +66,10 @@ namespace CodeMvvm.ViewModel
 			CreateCommands();
 		}
 
+	
+
 		private void GetDataFromSQL()
 		{
-			_db = new LinqToSQLClassesDataContext();
 			TileMap = new TileCollection();
 			TileMap.GetData(_db);
 		}

@@ -73,7 +73,9 @@
       <DependentUpon>LinqToSQLClasses.dbml</DependentUpon>
     </Compile>
     <Compile Include="Model\TileCollection.cs" />
+    <Compile Include="Model\UserColletction.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\HeaderToImageConverter.cs" />
     <Compile Include="View\Tile.cs" />

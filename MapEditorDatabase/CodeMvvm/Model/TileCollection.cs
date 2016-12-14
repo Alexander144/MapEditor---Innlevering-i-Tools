@@ -21,6 +21,7 @@ namespace CodeMvvm.Model
 				Add(T);
 				
 			}
+			
 		}
 
 		public void AttachToDatabase()
@@ -28,6 +29,7 @@ namespace CodeMvvm.Model
 			foreach (Tile T in this.Items)
 			{
 				l_db.Tiles.Attach(T);
+				
 			}
 			
 		}
