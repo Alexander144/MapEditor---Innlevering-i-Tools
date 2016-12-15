@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Data.Linq;
 using System.IO;
 using System.ComponentModel;
+using System.Threading;
 
 namespace CodeMvvm.ViewModel
 {
@@ -124,16 +125,9 @@ namespace CodeMvvm.ViewModel
 		}
 		private void ReadFileUser()
 		{
-<<<<<<< HEAD
 
-            FileInfo file = new FileInfo("User.txt");
-			StreamReader reader = file.OpenText();
-			string text = reader.ReadLine();
-			if (text != null)
-=======
 			FileInfo file = new FileInfo("User.txt");
 			if (file.Exists)
->>>>>>> 76ee125b935b86505e6eabfc886fc8fefcbbfa2f
 			{
 				StreamReader reader = file.OpenText();
 				string text = reader.ReadLine();
@@ -179,50 +173,52 @@ namespace CodeMvvm.ViewModel
 
 		private void Save()
 		{
-		
-			if (LoginUserMap.Name == null)
-			{
-				Console.WriteLine("feltet kan ikke være tomt");
-				
-			}
-			else
-			{
-				Console.WriteLine(LoginUserMap.Name + LoginUserMap.Name.Length);
-				bool ErrorSendDatabase = false;
-				LoginUserMap.IsUserOn = 1;
-				_db.Users.InsertOnSubmit(LoginUserMap);
-				try
-				{
-					
-					_db.SubmitChanges();
-				}
-				catch (Exception e)
-				{
-					Console.WriteLine("Brukeren eksisterer allerede" + e);
-					ErrorSendDatabase = true;
-				}
-				finally
-				{
-<<<<<<< HEAD
-					UserExist = "Hidden";
 
-					//System.IO.StreamWriter file = new System.IO.StreamWriter("User.txt");
-					File.AppendAllText("User.txt", string.Format("{0}{1}{2}", LoginUserMap.Name, Environment.NewLine, LoginUserMap.Id));
-					_db.Users.Attach(LoginUserMap);
-					//file.Write(LoginUserMap.Name + "/n" + LoginUserMap.Id);
-					//file.Close();
-=======
-					if (!ErrorSendDatabase) {
-						UserExist = "Hidden";
-						//System.IO.StreamWriter file = new System.IO.StreamWriter("User.txt");
-						File.AppendAllText("User.txt", string.Format("{0}{1}{2}", LoginUserMap.Name, Environment.NewLine, LoginUserMap.Id));
-						//_db.Users.Attach(LoginUserMap);
-						//file.Write(string.Format("{0}{1}{2}", LoginUserMap.Name, Environment.NewLine, LoginUserMap.Id));
-						//file.Close();
-					}
->>>>>>> 76ee125b935b86505e6eabfc886fc8fefcbbfa2f
-				}
-			}
+            Thread saveThread = new Thread(new ThreadStart(SaveThread));
+            saveThread.SetApartmentState(ApartmentState.STA);
+            saveThread.IsBackground = true;
+            saveThread.Start();
+
 		}
+
+
+        private void SaveThread()
+        {
+
+            if (LoginUserMap.Name == null)
+            {
+                Console.WriteLine("feltet kan ikke være tomt");
+
+            }
+            else
+            {
+                Console.WriteLine(LoginUserMap.Name + LoginUserMap.Name.Length);
+                bool ErrorSendDatabase = false;
+                LoginUserMap.IsUserOn = 1;
+                _db.Users.InsertOnSubmit(LoginUserMap);
+                try
+                {
+
+                    _db.SubmitChanges();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Brukeren eksisterer allerede" + e);
+                    ErrorSendDatabase = true;
+                }
+                finally
+                {
+                    if (!ErrorSendDatabase)
+                    {
+                        UserExist = "Hidden";
+                        //System.IO.StreamWriter file = new System.IO.StreamWriter("User.txt");
+                        File.AppendAllText("User.txt", string.Format("{0}{1}{2}", LoginUserMap.Name, Environment.NewLine, LoginUserMap.Id));
+                        //_db.Users.Attach(LoginUserMap);
+                        //file.Write(string.Format("{0}{1}{2}", LoginUserMap.Name, Environment.NewLine, LoginUserMap.Id));
+                        //file.Close();
+                    }
+                }
+            }
+        }
 	}
 }
