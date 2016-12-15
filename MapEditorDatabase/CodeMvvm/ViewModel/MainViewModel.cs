@@ -62,6 +62,8 @@ namespace CodeMvvm.ViewModel
 		/// Initializes a new instance of the MainViewModel class.
 		/// </summary>
 		public MainViewModel() {
+			_db = new LinqToSQLClassesDataContext();
+			InitUserViewModel(_db);
 			GetDataFromSQL();
 			CreateCommands();
 		}
@@ -85,6 +87,7 @@ namespace CodeMvvm.ViewModel
 		}
 
 		public void Save() {
+		
 			TileMap.Save();
 		}
 

@@ -415,5 +415,15 @@ namespace MVVM_Light_eksempel
         {
             return angle * (180.0 / Math.PI);
         }
-    }
+
+		private void button1_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+
+		}
+	}
 }

@@ -445,7 +445,7 @@ namespace CodeMvvm
 		
 		private string _Name;
 		
-		private int _IsUserOn;
+		private System.Nullable<int> _IsUserOn;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -455,7 +455,7 @@ namespace CodeMvvm
     partial void OnIdChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
-    partial void OnIsUserOnChanging(int value);
+    partial void OnIsUserOnChanging(System.Nullable<int> value);
     partial void OnIsUserOnChanged();
     #endregion
 		
@@ -484,7 +484,7 @@ namespace CodeMvvm
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NChar(10)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(40)")]
 		public string Name
 		{
 			get
@@ -504,8 +504,8 @@ namespace CodeMvvm
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsUserOn", DbType="Int NOT NULL")]
-		public int IsUserOn
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsUserOn", DbType="Int")]
+		public System.Nullable<int> IsUserOn
 		{
 			get
 			{

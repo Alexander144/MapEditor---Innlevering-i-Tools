@@ -10,7 +10,7 @@ namespace CodeMvvm.Model
 	public class UserColletction : ObservableCollection<User>
 	{
 		LinqToSQLClassesDataContext l_db;
-	
+		public string Username { get; set; }
 		public UserColletction()
 		{
 
@@ -21,8 +21,11 @@ namespace CodeMvvm.Model
 
 			foreach (User T in l_db.Users)
 			{
-				Add(T);
-				Console.WriteLine(T.Name);
+				if (T.Name != Username && T.IsUserOn == 1) {
+					Add(T);
+					Console.WriteLine(T.Name);
+				}
+				
 			}
 			return this;
 
