@@ -9,6 +9,10 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Net.NetworkInformation;
 using System.Threading;
+using System.Windows.Controls.Primitives;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows;
 
 namespace CodeMvvm.ViewModel
 {
@@ -18,7 +22,7 @@ namespace CodeMvvm.ViewModel
 	/// See http://www.galasoft.ch/mvvm
 	/// </para>
 	/// </summary>
-	public class MainViewModel : UserViewModel
+	public class MainViewModel : UserViewModel, INotifyPropertyChanged
 	{
 		#region Properties
 		public TileCollection TileMap
@@ -76,21 +80,22 @@ namespace CodeMvvm.ViewModel
 
         private int _tileMapNumberOfXNodes = 10;
         private int _tileMapNumberOfYNodes = 10;
-	
 
-		#endregion
+        private int _tileColumnWidth = 50;
+        private int _tileRowHeight = 50;
 
-		/// <summary>
-		/// Initializes a new instance of the MainViewModel class.
-		/// </summary>
-		public MainViewModel() {
+
+        #endregion
+
+        /// <summary>
+        /// Initializes a new instance of the MainViewModel class.
+        /// </summary>
+        public MainViewModel() {
 			_db = new LinqToSQLClassesDataContext();
 			InitUserViewModel(_db);
 			GetDataFromSQL();
 			CreateCommands();
-		}
-        
-	
+        }
 
 		private void GetDataFromSQL()
 		{

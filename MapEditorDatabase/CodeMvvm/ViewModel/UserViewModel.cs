@@ -141,7 +141,10 @@ namespace CodeMvvm.ViewModel
 					_db.Users.Attach(LoginUserMap);
 
 					LoginUserMap.IsUserOn = 1;
-					_db.SubmitChanges();
+					//_db.SubmitChanges();
+
+
+
 					//_db.Refresh(RefreshMode.OverwriteCurrentValues, LoginUserMap);
 
 				}
