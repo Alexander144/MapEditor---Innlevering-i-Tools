@@ -13,7 +13,13 @@
         Width="1024"
         Title="Pathfinder Character Creator"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
+        xmlns:b="using:Win8Utils.Behaviors"
        >
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding WindowClosing}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
