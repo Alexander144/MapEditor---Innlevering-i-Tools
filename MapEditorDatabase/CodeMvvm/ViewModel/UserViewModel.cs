@@ -11,6 +11,10 @@ using System.Data.Linq;
 using System.IO;
 using System.ComponentModel;
 using System.Threading;
+using System.Windows.Threading;
+using System.Data.SqlClient;
+using System.Windows.Data;
+using System.Collections.Specialized;
 
 namespace CodeMvvm.ViewModel
 {
@@ -72,6 +76,7 @@ namespace CodeMvvm.ViewModel
 		private UserColletction _usersMap;
 		private LinqToSQLClassesDataContext _db;
 		private string UserInFile;
+		private DispatcherTimer dispatcherTimer;
 		#endregion
 		#region Commands
 		public ICommand ExitProgramCommand
@@ -97,18 +102,30 @@ namespace CodeMvvm.ViewModel
 		{
 			get; private set;
 		}
-		
+
 		#endregion
+
+		
 		public UserViewModel()
 		{
-			
-		
+			dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+			dispatcherTimer.Tick += new EventHandler(UpdateData);
+			dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
+			dispatcherTimer.Start();
+
 		}
-		~UserViewModel()
+
+		private void UpdateData(object sender, EventArgs e)
 		{
-			//LoginUserMap.IsUserOn = 0;
-			//_db.SubmitChanges();
+			
+			_db.Refresh(RefreshMode.OverwriteCurrentValues, UsersMap);
+
+			CollectionViewSource.GetDefaultView(UsersMap).Refresh();
+			UsersMap.RefreshData();
+			UsersMap.AddNewData();
+			
 		}
+
 		public void InitUserViewModel(LinqToSQLClassesDataContext db)
 		{
 			User = new User();
@@ -116,8 +133,8 @@ namespace CodeMvvm.ViewModel
 			UsersMap = new UserColletction();
 			_db = db;
 			ReadFileUser();
-			UsersMap = UsersMap.GetData(_db);
-
+			UsersMap.GetData(_db);
+		
 			
 			CreateCommands();
 			
