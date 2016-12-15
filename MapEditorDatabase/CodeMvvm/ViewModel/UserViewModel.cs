@@ -77,6 +77,10 @@ namespace CodeMvvm.ViewModel
 		{
 			get; private set;
 		}
+		public ICommand SaveUserCommand
+		{
+			get; private set;
+		}
 		public ICommand WindowClosing
 		{
 			get
@@ -101,8 +105,8 @@ namespace CodeMvvm.ViewModel
 		}
 		~UserViewModel()
 		{
-			LoginUserMap.IsUserOn = 0;
-			_db.SubmitChanges();
+			//LoginUserMap.IsUserOn = 0;
+			//_db.SubmitChanges();
 		}
 		public void InitUserViewModel(LinqToSQLClassesDataContext db)
 		{
@@ -120,26 +124,36 @@ namespace CodeMvvm.ViewModel
 		}
 		private void ReadFileUser()
 		{
+<<<<<<< HEAD
 
             FileInfo file = new FileInfo("User.txt");
 			StreamReader reader = file.OpenText();
 			string text = reader.ReadLine();
 			if (text != null)
+=======
+			FileInfo file = new FileInfo("User.txt");
+			if (file.Exists)
+>>>>>>> 76ee125b935b86505e6eabfc886fc8fefcbbfa2f
 			{
-				
-				UserExist = "Hidden";
-				LoginUserMap.Name = text;
-				UsersMap.Username = LoginUserMap.Name;
-				LoginUserMap.Id = Int32.Parse(reader.ReadLine());
-				_db.Users.Attach(LoginUserMap);
-				
-				LoginUserMap.IsUserOn = 1;
-				_db.SubmitChanges();
-				//_db.Refresh(RefreshMode.OverwriteCurrentValues, LoginUserMap);
+				StreamReader reader = file.OpenText();
+				string text = reader.ReadLine();
+				if (text != null)
+				{
 
+					UserExist = "Hidden";
+					LoginUserMap.Name = text;
+					UsersMap.Username = LoginUserMap.Name;
+					LoginUserMap.Id = Int32.Parse(reader.ReadLine());
+					_db.Users.Attach(LoginUserMap);
+
+					LoginUserMap.IsUserOn = 1;
+					_db.SubmitChanges();
+					//_db.Refresh(RefreshMode.OverwriteCurrentValues, LoginUserMap);
+
+				}
 			}
 			else {
-				
+
 				UserExist = "visible";
 			}
 		}
@@ -148,7 +162,7 @@ namespace CodeMvvm.ViewModel
 		{
 			ExitProgramCommand = new RelayCommand(Exit);
 
-
+			SaveUserCommand = new RelayCommand(Save);
 			CancelCommand = new RelayCommand(UpdateList);
 
 		}
@@ -157,10 +171,6 @@ namespace CodeMvvm.ViewModel
 		{
 			LoginUserMap.IsUserOn = 0;
 			_db.SubmitChanges();
-		}
-		private void MainWindowDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			Exit();
 		}
 		private void UpdateList()
 		{
@@ -178,6 +188,7 @@ namespace CodeMvvm.ViewModel
 			else
 			{
 				Console.WriteLine(LoginUserMap.Name + LoginUserMap.Name.Length);
+				bool ErrorSendDatabase = false;
 				LoginUserMap.IsUserOn = 1;
 				_db.Users.InsertOnSubmit(LoginUserMap);
 				try
@@ -188,9 +199,11 @@ namespace CodeMvvm.ViewModel
 				catch (Exception e)
 				{
 					Console.WriteLine("Brukeren eksisterer allerede" + e);
+					ErrorSendDatabase = true;
 				}
 				finally
 				{
+<<<<<<< HEAD
 					UserExist = "Hidden";
 
 					//System.IO.StreamWriter file = new System.IO.StreamWriter("User.txt");
@@ -198,6 +211,16 @@ namespace CodeMvvm.ViewModel
 					_db.Users.Attach(LoginUserMap);
 					//file.Write(LoginUserMap.Name + "/n" + LoginUserMap.Id);
 					//file.Close();
+=======
+					if (!ErrorSendDatabase) {
+						UserExist = "Hidden";
+						//System.IO.StreamWriter file = new System.IO.StreamWriter("User.txt");
+						File.AppendAllText("User.txt", string.Format("{0}{1}{2}", LoginUserMap.Name, Environment.NewLine, LoginUserMap.Id));
+						//_db.Users.Attach(LoginUserMap);
+						//file.Write(string.Format("{0}{1}{2}", LoginUserMap.Name, Environment.NewLine, LoginUserMap.Id));
+						//file.Close();
+					}
+>>>>>>> 76ee125b935b86505e6eabfc886fc8fefcbbfa2f
 				}
 			}
 		}
