@@ -421,9 +421,5 @@ namespace MVVM_Light_eksempel
 
 		}
 
-		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-
-		}
 	}
 }

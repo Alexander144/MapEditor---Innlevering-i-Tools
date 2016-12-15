@@ -8,7 +8,6 @@
       
         xmlns:ignore="http://www.ignore.com"
         xmlns:local="clr-namespace:WPF_Explorer_Tree"
-        xmlns:userViewmodel="clr-namespace:CodeMvvm.ViewModel"
         mc:Ignorable="d ignore"
         Height="768"
         Width="1024"
@@ -145,6 +144,7 @@
         </ListBox>
         <TextBox x:Name="textBox" Visibility="{Binding UserExist}" HorizontalAlignment="Left" Height="26" Margin="626,10,0,0" TextWrapping="Wrap" Text="{Binding LoginUserMap.Name}" VerticalAlignment="Top" Width="100"/>
         <Button x:Name="button1" Visibility="{Binding UserExist}" Content="Enter" HorizontalAlignment="Left" Margin="726,10,0,0" VerticalAlignment="Top" Width="75" Height="26" Command="{Binding SaveUserCommand}" Click="button1_Click" />
+        <Button x:Name="button2" Content="LogOut" HorizontalAlignment="Left" Margin="806,15,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ExitProgramCommand}"/>
 
     </Grid>
 </Window>
