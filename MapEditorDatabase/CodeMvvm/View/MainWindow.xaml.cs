@@ -22,7 +22,7 @@ namespace MVVM_Light_eksempel
 
         protected int columnWidth = 50;
         protected int rowHeight = 50;
-        protected string[,] fields;
+        private Tile[,] fields;
 
         protected TreeViewItem lastHierarchyImageClicked;
         private List<Tile> tileList;
@@ -34,6 +34,8 @@ namespace MVVM_Light_eksempel
         private Image currentPreviewImg;
         private RotateTransform rotate;
 
+        private UniformGrid tileGrid;
+
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
@@ -42,12 +44,13 @@ namespace MVVM_Light_eksempel
             InitializeComponent();
             Closing += (s, e) => ViewModelLocator.Cleanup();
 
-            fields = new string[10, 10];
+            fields = new Tile[10, 10];
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    fields[i, j] = "Sprites/defaultTile.png";
+                    fields[i, j] = new Tile("defaultTile.png", 20 + i * columnWidth, 40 + j * rowHeight);
+                    fields[i, j].Path = "pack://application:,,,/View/Sprites/defaultTile.png";
                 }
             }
 
@@ -61,18 +64,18 @@ namespace MVVM_Light_eksempel
 
         public void InitGrid()
         {
-            UniformGrid grid = new UniformGrid();
-            grid.Columns = 10;
-            grid.Rows = 10;
-            grid.Width = columnWidth * 10;
-            grid.Height = rowHeight * 10;
+            tileGrid = new UniformGrid();
+            tileGrid.Columns = 10;
+            tileGrid.Rows = 10;
+            tileGrid.Width = columnWidth * 10;
+            tileGrid.Height = rowHeight * 10;
             for (int x = 0; x < 10; x++)
             {
                 for (int y = 0; y < 10; y++)
                 {
 
                     Image img = new Image();
-                    BitmapImage imageBitmap = new BitmapImage(new Uri(fields[x, y], UriKind.Relative));
+                    BitmapImage imageBitmap = new BitmapImage(new Uri(fields[x, y].Path));
 
                     img.Source = imageBitmap;
                     img.Stretch = System.Windows.Media.Stretch.Fill;
@@ -86,14 +89,15 @@ namespace MVVM_Light_eksempel
                     img.AddHandler(DragLeaveEvent, new DragEventHandler(DragLeavingTile));
                     img.AddHandler(DropEvent, new DragEventHandler(DroppingOnTile));
 
+                    fields[x, y].Image = img;
 
-                    grid.Children.Add(img);
+                    tileGrid.Children.Add(fields[x, y].Image);
                 }
             }
 
-            Canvas.SetLeft(grid, 0);
-            Canvas.SetTop(grid, 0);
-            MainCanvas.Children.Add(grid);
+            Canvas.SetLeft(tileGrid, 0);
+            Canvas.SetTop(tileGrid, 0);
+            MainCanvas.Children.Add(tileGrid);
         }
 
         public void InitTreeView()
@@ -200,14 +204,14 @@ namespace MVVM_Light_eksempel
 
 
                     tileList.Add(t);
-                    ImageViewPanel.Children.Add(t.img);
+                    ImageViewPanel.Children.Add(t.Image);
 
                     TextBlock textBlock = CreateTextBlockFromImageName(true, lastHierarchyImageClicked.Header as string);
                     TextPanel.Children.Add(textBlock);
 
 
 
-                    Console.WriteLine(tileList[0].name);
+                    Console.WriteLine(tileList[0].Name);
                 }
                 else
                 {
@@ -216,9 +220,9 @@ namespace MVVM_Light_eksempel
                     foreach (Tile t in tileList)
                     {
 
-                        Console.WriteLine(t.path);
+                        Console.WriteLine(t.Path);
                         Console.WriteLine(lastHierarchyImageClicked.Tag as string);
-                        if (t.path == lastHierarchyImageClicked.Tag as string)
+                        if (t.Path == lastHierarchyImageClicked.Tag as string)
                         {
                             tileIsInList = true;
                             break;
@@ -228,7 +232,7 @@ namespace MVVM_Light_eksempel
                     {
                         Tile t = CreateTileFromTreeViewItem(false);
                         tileList.Add(t);
-                        ImageViewPanel.Children.Add(t.img);
+                        ImageViewPanel.Children.Add(t.Image);
 
 
                         TextBlock textBlock = CreateTextBlockFromImageName(true, lastHierarchyImageClicked.Header as string);
@@ -242,20 +246,20 @@ namespace MVVM_Light_eksempel
         {
             BitmapImage imageBitmap = new BitmapImage(new Uri(lastHierarchyImageClicked.Tag as string, UriKind.Absolute));
             Tile t = new Tile(lastHierarchyImageClicked.Header as string, lastHierarchyImageClicked.Tag as string, new Image());
-            t.img.Source = imageBitmap;
+            t.Image.Source = imageBitmap;
 
             Console.WriteLine("Ye");
-            t.img.Height = 70;
-            t.img.Width = 70;
-            t.img.AddHandler(PreviewMouseLeftButtonDownEvent, new RoutedEventHandler(MouseClickedOnCollectionImage));
+            t.Image.Height = 70;
+            t.Image.Width = 70;
+            t.Image.AddHandler(PreviewMouseLeftButtonDownEvent, new RoutedEventHandler(MouseClickedOnCollectionImage));
 
             if (isLeftmostImage)
             {
-                t.img.Margin = new Thickness(0, 0, 0, 0);
+                t.Image.Margin = new Thickness(0, 0, 0, 0);
             }
             else
             {
-                t.img.Margin = new Thickness(5, 0, 0, 0);
+                t.Image.Margin = new Thickness(5, 0, 0, 0);
             }
 
             return t;
@@ -295,7 +299,7 @@ namespace MVVM_Light_eksempel
 
             foreach (Tile t in tileList)
             {
-                if (PreviewImage.Source.Equals(t.img.Source))
+                if (PreviewImage.Source.Equals(t.Image.Source))
                 {
                     currentPreviewTile = t;
                 }
@@ -319,10 +323,10 @@ namespace MVVM_Light_eksempel
                 Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
-
                 Image img = sender as Image;
 
                 DataObject dragData = new DataObject("image", img);
+
 
                 DragDrop.DoDragDrop(img, dragData, DragDropEffects.Move);
 
@@ -362,11 +366,55 @@ namespace MVVM_Light_eksempel
 
         private void DroppingOnTile(object sender, DragEventArgs e)
         {
-            Image tempImage = new Image();
 
-            (sender as Image).Source = (e.Data.GetData("image") as Image).Source;
-            (sender as Image).RenderTransformOrigin = (e.Data.GetData("image") as Image).RenderTransformOrigin;
-            (sender as Image).RenderTransform = (e.Data.GetData("image") as Image).RenderTransform;
+            Point imageLocation = (sender as Image).TransformToAncestor(Application.Current.MainWindow).Transform(new Point(0, 0));
+            Console.WriteLine(imageLocation.ToString());
+
+            for (int x = 0; x < 10; x++)
+            {
+                for (int y = 0; y < 10; y++)
+                {
+                    if (imageLocation == new Point(fields[y, x].PositionX, fields[y, x].PositionY))
+                    {
+                        Console.WriteLine("Hmm?");
+
+                        BitmapImage imageBitmap = new BitmapImage(new Uri((e.Data.GetData("image") as Image).Source.ToString()));
+
+                        fields[x, y].Image.Source = imageBitmap;
+                        //fields[x, y].Image.Source = (e.Data.GetData("image") as Image).Source;
+
+                        float RenderTransformOriginX = float.Parse((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().Substring(0, (e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().LastIndexOf(",")));
+                        float renderTransformOriginY = float.Parse((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().Substring((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().LastIndexOf(",") + 1));
+
+                        Point renderTransformOrigin = new Point(RenderTransformOriginX, renderTransformOriginY);
+                        fields[x, y].Image.RenderTransformOrigin = renderTransformOrigin;
+
+
+                        RotateTransform rotateTransform = (e.Data.GetData("image") as Image).RenderTransform as RotateTransform;
+
+                        double angle;
+
+                        if (rotateTransform == null)
+                        {
+                            angle = 0;
+                        }
+                        else
+                        {
+                            angle = double.Parse(rotateTransform.Angle.ToString());
+                        }
+                        
+
+                        fields[x, y].Image.RenderTransform = new RotateTransform(angle);
+                        
+                        break;
+                    }
+                }
+            }
+
+            //(sender as Image).Source = (e.Data.GetData("image") as Image).Source;
+            //(sender as Image).RenderTransformOrigin = (e.Data.GetData("image") as Image).RenderTransformOrigin;
+            //(sender as Image).RenderTransform = (e.Data.GetData("image") as Image).RenderTransform;
+
         }
 
         private void RotateButton_Click(object sender, RoutedEventArgs e)

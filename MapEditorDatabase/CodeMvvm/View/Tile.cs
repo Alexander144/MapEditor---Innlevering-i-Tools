@@ -9,15 +9,36 @@ namespace CodeMvvm.View
 {
     class Tile
     {
-        public string name;
-        public string path;
-        public Image img;
+        public string Name;
+        public string Path;
+        public Image Image;
+        public int PositionX;
+        public int PositionY;
+        public double RotationAngle;
+        public bool TopLeft;
+        public bool TopMiddle;
+        public bool TopRight;
+        public bool RightMiddle;
+        public bool BottomRight;
+        public bool BottomMiddle;
+        public bool BottomLeft;
+        public bool LeftMiddle;
+
+
+        public Tile(string name, int positionX, int positionY) : this(name, "", new Image())
+        {
+            this.PositionX = positionX;
+            this.PositionY = positionY;
+        }
 
         public Tile(string name, string path, Image img)
         {
-            this.name = name;
-            this.path = path;
-            this.img = img;
+            this.Name = name;
+            this.Path = path;
+            this.Image = img;
+            PositionX = PositionY = 0;
+            RotationAngle = 0;
+            TopLeft = TopMiddle = TopRight = RightMiddle = BottomRight = BottomMiddle = BottomLeft = LeftMiddle = false;
         }
     }
 }
