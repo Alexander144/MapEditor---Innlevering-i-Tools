@@ -19,7 +19,6 @@ namespace CodeMvvm.Model
 			foreach (Tile T in l_db.Tiles)
 			{
 				Add(T);
-				
 			}
 			
 		}

@@ -120,7 +120,8 @@ namespace CodeMvvm.ViewModel
 		}
 		private void ReadFileUser()
 		{
-			FileInfo file = new FileInfo("User.txt");
+
+            FileInfo file = new FileInfo("User.txt");
 			StreamReader reader = file.OpenText();
 			string text = reader.ReadLine();
 			if (text != null)
@@ -191,6 +192,7 @@ namespace CodeMvvm.ViewModel
 				finally
 				{
 					UserExist = "Hidden";
+
 					//System.IO.StreamWriter file = new System.IO.StreamWriter("User.txt");
 					File.AppendAllText("User.txt", string.Format("{0}{1}{2}", LoginUserMap.Name, Environment.NewLine, LoginUserMap.Id));
 					_db.Users.Attach(LoginUserMap);

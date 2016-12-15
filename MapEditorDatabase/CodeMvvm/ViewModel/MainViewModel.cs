@@ -8,6 +8,7 @@ using System.Data.Linq;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Net.NetworkInformation;
+using System.Threading;
 
 namespace CodeMvvm.ViewModel
 {
@@ -32,10 +33,27 @@ namespace CodeMvvm.ViewModel
 				if (_tileMap != value)
 				{
 					_tileMap = value;
-					RaisePropertyChanged("_tileMap");
+					RaisePropertyChanged("TileMap");
 				}
 			}
 		}
+
+        public Tile[,] TileMapDoubleArray
+        {
+            get
+            {
+                return _tileMapDoubleArray;
+            }
+
+            set
+            {
+                if (_tileMapDoubleArray != value)
+                {
+                    _tileMapDoubleArray = value;
+                    RaisePropertyChanged("TileMapDoubleArray");
+                }
+            }
+        }
 		#endregion
 
 		#region Commands
@@ -53,7 +71,11 @@ namespace CodeMvvm.ViewModel
 		#region Private fields
 
 		private TileCollection _tileMap;
+        private Tile[,] _tileMapDoubleArray;
 		private LinqToSQLClassesDataContext _db;
+
+        private int _tileMapNumberOfXNodes = 10;
+        private int _tileMapNumberOfYNodes = 10;
 	
 
 		#endregion
@@ -67,7 +89,7 @@ namespace CodeMvvm.ViewModel
 			GetDataFromSQL();
 			CreateCommands();
 		}
-
+        
 	
 
 		private void GetDataFromSQL()
@@ -78,8 +100,7 @@ namespace CodeMvvm.ViewModel
 
 		private void CreateCommands() {
 			SaveCommand = new RelayCommand(Save, CanSave);
-			
-			CancelCommand = new RelayCommand(Cancel);
+			CancelCommand = new RelayCommand(Load);
 		}
 
 		private bool CanSave() {
@@ -87,13 +108,46 @@ namespace CodeMvvm.ViewModel
 		}
 
 		public void Save() {
-		
-			TileMap.Save();
+            Thread saveThread = new Thread(new ThreadStart(SaveThread));
+            saveThread.SetApartmentState(ApartmentState.STA);
+            saveThread.IsBackground = true;
+            saveThread.Start();
+        }
+
+		public void Load() {
+            Thread loadThread = new Thread(new ThreadStart(LoadThread));
+            loadThread.SetApartmentState(ApartmentState.STA);
+            loadThread.IsBackground = true;
+            loadThread.Start();
 		}
 
-		public void Cancel() {
-			_db.Refresh(RefreshMode.OverwriteCurrentValues, TileMap);
-			TileMap.GetData(_db);
-		}
+        public void LoadThread()
+        {
+            _db.Refresh(RefreshMode.OverwriteCurrentValues, TileMap);
+            TileMap.GetData(_db);
+            System.Windows.Threading.Dispatcher.Run();
+        }
+
+        public void SaveThread()
+        {
+            UpdateTileMap();
+            TileMap.Save();
+            System.Windows.Threading.Dispatcher.Run();
+        }
+
+        public void UpdateTileMap()
+        {
+            foreach (Tile t in _tileMap)
+            {
+                _tileMap.Remove(t);
+            }
+            for (int i = 0; i < _tileMapNumberOfXNodes; i++)
+            {
+                for (int j = 0; j < _tileMapNumberOfYNodes; j++)
+                {
+                    _tileMap.Add(_tileMapDoubleArray[i, j]);
+                }
+            }
+        }
 	}
 }
