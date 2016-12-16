@@ -45,23 +45,6 @@ namespace CodeMvvm.ViewModel
 			}
 		}
 
-        public Tile[,] TileMapDoubleArray
-        {
-            get
-            {
-                return _tileMapDoubleArray;
-            }
-
-            set
-            {
-                if (_tileMapDoubleArray != value)
-                {
-                    _tileMapDoubleArray = value;
-                    RaisePropertyChanged("TileMapDoubleArray");
-                }
-            }
-        }
-
 
         //User properties
         public UserColletction UsersMap
@@ -179,7 +162,6 @@ namespace CodeMvvm.ViewModel
 
         //Tile related fields
         private TileCollection _tileMap;
-        private Tile[,] _tileMapDoubleArray;
 		private LinqToSQLClassesDataContext _db;
 
         private int _tileMapNumberOfXNodes = 10;
@@ -274,7 +256,7 @@ namespace CodeMvvm.ViewModel
             }
 
 
-            Thread saveThread = new Thread(new ThreadStart(SaveTilesThread));
+            Thread saveThread = new Thread(() => SaveTilesThread(tileDoubleArray));
             saveThread.SetApartmentState(ApartmentState.STA);
             saveThread.IsBackground = true;
             saveThread.Start();
@@ -294,24 +276,22 @@ namespace CodeMvvm.ViewModel
             System.Windows.Threading.Dispatcher.Run();
         }
 
-        public void SaveTilesThread()
+        public void SaveTilesThread(CodeMvvm.View.Tile[,] tileDoubleArray)
         {
-            UpdateTileMap();
+            UpdateTileMap(tileDoubleArray);
             TileMap.Save();
             System.Windows.Threading.Dispatcher.Run();
         }
 
-        public void UpdateTileMap()
+        public void UpdateTileMap(CodeMvvm.View.Tile[,] tileDoubleArray)
         {
-            foreach (Tile t in _db.Tiles)
-            {
-				TileMap.Remove(t);
-            }
             for (int i = 0; i < _tileMapNumberOfXNodes; i++)
             {
                 for (int j = 0; j < _tileMapNumberOfYNodes; j++)
                 {
-					TileMap.Add(_tileMapDoubleArray[i, j]);
+                    Tile tempTile = new Tile();
+                    tempTile.Path = tileDoubleArray[i, j].Path;
+					TileMap.Add(tempTile);
                 }
             }
         }
