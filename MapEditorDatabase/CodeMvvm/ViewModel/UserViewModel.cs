@@ -11,6 +11,10 @@ using System.Data.Linq;
 using System.IO;
 using System.ComponentModel;
 using System.Threading;
+using System.Windows.Threading;
+using System.Data.SqlClient;
+using System.Windows.Data;
+using System.Collections.Specialized;
 
 namespace CodeMvvm.ViewModel
 {
@@ -23,6 +27,7 @@ namespace CodeMvvm.ViewModel
 		{
 			get
 			{
+			
 				return _usersMap;
 			}
 
@@ -35,6 +40,7 @@ namespace CodeMvvm.ViewModel
 				}
 			}
 		}
+
 		public User LoginUserMap
 		{
 			get
@@ -74,6 +80,7 @@ namespace CodeMvvm.ViewModel
 		private UserColletction _usersMap;
 		private LinqToSQLClassesDataContext _usersDB;
 		private string UserInFile;
+		private DispatcherTimer dispatcherTimer;
 		#endregion
 		#region Commands
 		public ICommand ExitProgramCommand
@@ -99,18 +106,28 @@ namespace CodeMvvm.ViewModel
 		{
 			get; private set;
 		}
-		
+
 		#endregion
+
+		
 		public UserViewModel()
 		{
-			
-		
+			dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+			dispatcherTimer.Tick += new EventHandler(UpdateData);
+			dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
+			dispatcherTimer.Start();
+
 		}
-		~UserViewModel()
+
+		private void UpdateData(object sender, EventArgs e)
 		{
-			//LoginUserMap.IsUserOn = 0;
-			//_db.SubmitChanges();
+			
+			_db.Refresh(RefreshMode.OverwriteCurrentValues, UsersMap);
+			CollectionViewSource.GetDefaultView(UsersMap).Refresh();
+			UsersMap.RefreshData();
+			UsersMap.AddNewData();
 		}
+
 		public void InitUserViewModel(LinqToSQLClassesDataContext db)
 		{
 			User = new User();
@@ -118,8 +135,13 @@ namespace CodeMvvm.ViewModel
 			UsersMap = new UserColletction();
 			_usersDB = db;
 			ReadFileUser();
+<<<<<<< HEAD
 			UsersMap = UsersMap.GetData(_usersDB);
 
+=======
+			UsersMap.GetData(_db);
+		
+>>>>>>> b0d7646403abb3ebdd6bfac0ae6397591f30d018
 			
 			CreateCommands();
 			
@@ -143,7 +165,7 @@ namespace CodeMvvm.ViewModel
 					_usersDB.Users.Attach(LoginUserMap);
 
 					LoginUserMap.IsUserOn = 1;
-					//_db.SubmitChanges();
+					_db.SubmitChanges();
 
 
 
