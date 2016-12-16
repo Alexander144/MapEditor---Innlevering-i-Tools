@@ -25,6 +25,7 @@ namespace CodeMvvm.ViewModel
 		{
 			get
 			{
+			
 				return _usersMap;
 			}
 
@@ -37,6 +38,7 @@ namespace CodeMvvm.ViewModel
 				}
 			}
 		}
+
 		public User LoginUserMap
 		{
 			get
@@ -119,11 +121,9 @@ namespace CodeMvvm.ViewModel
 		{
 			
 			_db.Refresh(RefreshMode.OverwriteCurrentValues, UsersMap);
-
 			CollectionViewSource.GetDefaultView(UsersMap).Refresh();
 			UsersMap.RefreshData();
 			UsersMap.AddNewData();
-			
 		}
 
 		public void InitUserViewModel(LinqToSQLClassesDataContext db)
@@ -158,7 +158,7 @@ namespace CodeMvvm.ViewModel
 					_db.Users.Attach(LoginUserMap);
 
 					LoginUserMap.IsUserOn = 1;
-					//_db.SubmitChanges();
+					_db.SubmitChanges();
 
 
 
