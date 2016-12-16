@@ -16,6 +16,8 @@ namespace CodeMvvm.ViewModel
 {
 	public class UserViewModel : ViewModelBase
 	{
+        /*
+        
 		#region Properties
 		public UserColletction UsersMap
 		{
@@ -70,7 +72,7 @@ namespace CodeMvvm.ViewModel
 		#region Private fields
 		private User User;
 		private UserColletction _usersMap;
-		private LinqToSQLClassesDataContext _db;
+		private LinqToSQLClassesDataContext _usersDB;
 		private string UserInFile;
 		#endregion
 		#region Commands
@@ -93,7 +95,7 @@ namespace CodeMvvm.ViewModel
 			}
 		}
 
-		public ICommand CancelCommand
+		public ICommand CancelUserCommand
 		{
 			get; private set;
 		}
@@ -114,9 +116,9 @@ namespace CodeMvvm.ViewModel
 			User = new User();
 			User.IsUserOn = 0;
 			UsersMap = new UserColletction();
-			_db = db;
+			_usersDB = db;
 			ReadFileUser();
-			UsersMap = UsersMap.GetData(_db);
+			UsersMap = UsersMap.GetData(_usersDB);
 
 			
 			CreateCommands();
@@ -138,7 +140,7 @@ namespace CodeMvvm.ViewModel
 					LoginUserMap.Name = text;
 					UsersMap.Username = LoginUserMap.Name;
 					LoginUserMap.Id = Int32.Parse(reader.ReadLine());
-					_db.Users.Attach(LoginUserMap);
+					_usersDB.Users.Attach(LoginUserMap);
 
 					LoginUserMap.IsUserOn = 1;
 					//_db.SubmitChanges();
@@ -159,25 +161,25 @@ namespace CodeMvvm.ViewModel
 		{
 			ExitProgramCommand = new RelayCommand(Exit);
 
-			SaveUserCommand = new RelayCommand(Save);
-			CancelCommand = new RelayCommand(UpdateList);
+			SaveUserCommand = new RelayCommand(SaveUsers);
+			CancelUserCommand = new RelayCommand(UpdateList);
 
 		}
 
 		private void Exit()
 		{
 			LoginUserMap.IsUserOn = 0;
-			_db.SubmitChanges();
+			_usersDB.SubmitChanges();
 		}
 		private void UpdateList()
 		{
 			throw new NotImplementedException();
 		}
 
-		private void Save()
+		private void SaveUsers()
 		{
 
-            Thread saveThread = new Thread(new ThreadStart(SaveThread));
+            Thread saveThread = new Thread(new ThreadStart(SaveUsersThread));
             saveThread.SetApartmentState(ApartmentState.STA);
             saveThread.IsBackground = true;
             saveThread.Start();
@@ -185,7 +187,7 @@ namespace CodeMvvm.ViewModel
 		}
 
 
-        private void SaveThread()
+        private void SaveUsersThread()
         {
 
             if (LoginUserMap.Name == null)
@@ -198,11 +200,11 @@ namespace CodeMvvm.ViewModel
                 Console.WriteLine(LoginUserMap.Name + LoginUserMap.Name.Length);
                 bool ErrorSendDatabase = false;
                 LoginUserMap.IsUserOn = 1;
-                _db.Users.InsertOnSubmit(LoginUserMap);
+                _usersDB.Users.InsertOnSubmit(LoginUserMap);
                 try
                 {
 
-                    _db.SubmitChanges();
+                    _usersDB.SubmitChanges();
                 }
                 catch (Exception e)
                 {
@@ -223,5 +225,8 @@ namespace CodeMvvm.ViewModel
                 }
             }
         }
+
+    */
+        
 	}
 }

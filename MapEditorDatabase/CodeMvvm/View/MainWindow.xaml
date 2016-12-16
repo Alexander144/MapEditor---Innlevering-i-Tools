@@ -12,6 +12,7 @@
         Height="768"
         Width="1024"
         Title="Pathfinder Character Creator"
+        Name="MainWindowName"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         xmlns:b="using:Win8Utils.Behaviors"
        >
@@ -84,7 +85,39 @@
 
     <Grid x:Name="LayoutRoot">
 
-        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="500" Margin="20,40,0,0" VerticalAlignment="Top" Width="500"/>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New"/>
+                    <MenuItem Header="_Open"/>
+                    <MenuItem Header="_Save"  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=Fields}" Command="{Binding SaveTilesCommand}"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
+
+        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="500" Margin="20,40,0,0" VerticalAlignment="Top" Width="500">
+
+            <!--
+            <ItemsControl ItemsSource="{Binding TileMap}" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Image Width="50" Height="50" Source="{Binding Path}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="10" Rows="10">
+                        </UniformGrid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            
+            -->
+        </Canvas>
+
 
         <TreeView x:Name="DirectoryTreeView"
                   HorizontalAlignment="Right"

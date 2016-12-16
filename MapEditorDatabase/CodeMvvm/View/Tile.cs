@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace CodeMvvm.View
 {
-    class Tile
+    public class Tile
     {
         public string Name;
         public string Path;

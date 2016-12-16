@@ -20,6 +20,19 @@ namespace MVVM_Light_eksempel
     public partial class MainWindow : Window
     {
 
+
+        public Tile[,] Fields
+        {
+            get
+            {
+                if (fields != null)
+                {
+                    Console.WriteLine("Fields is not null");
+                }
+                return fields;
+            }
+        }
+
         protected int columnWidth = 50;
         protected int rowHeight = 50;
         private Tile[,] fields;
