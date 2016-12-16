@@ -285,16 +285,24 @@ namespace CodeMvvm.ViewModel
 
         public void UpdateTileMap(CodeMvvm.View.Tile[,] tileDoubleArray)
         {
+
+			foreach (Tile T in _db.Tiles)
+			{
+				TileMap.Add(T);
+			}
+
             for (int i = 0; i < _tileMapNumberOfXNodes; i++)
             {
                 for (int j = 0; j < _tileMapNumberOfYNodes; j++)
                 {
                     Tile tempTile = new Tile();
                     tempTile.Path = tileDoubleArray[i, j].Path;
-					TileMap.Add(tempTile);
+					TileMap[i]=tempTile;
                 }
             }
-        }
+			_db.Refresh(RefreshMode.KeepChanges, TileMap);
+			_db.SubmitChanges();
+		}
 
 
         //User related methods
