@@ -303,15 +303,15 @@ namespace CodeMvvm.ViewModel
 
         public void UpdateTileMap()
         {
-            foreach (Tile t in _tileMap)
+            foreach (Tile t in _db.Tiles)
             {
-                _tileMap.Remove(t);
+				TileMap.Remove(t);
             }
             for (int i = 0; i < _tileMapNumberOfXNodes; i++)
             {
                 for (int j = 0; j < _tileMapNumberOfYNodes; j++)
                 {
-                    _tileMap.Add(_tileMapDoubleArray[i, j]);
+					TileMap.Add(_tileMapDoubleArray[i, j]);
                 }
             }
         }
@@ -326,7 +326,7 @@ namespace CodeMvvm.ViewModel
             UsersMap = new UserColletction();
             _usersDB = db;
             ReadFileUser();
-            UsersMap = UsersMap.GetData(_usersDB);
+            UsersMap.GetData(_usersDB);
 
 
             CreateCommands();
