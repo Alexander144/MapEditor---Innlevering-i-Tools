@@ -49,6 +49,8 @@ namespace MVVM_Light_eksempel
 
         private UniformGrid tileGrid;
 
+        private object[] previewTileInformation;
+
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
@@ -69,6 +71,9 @@ namespace MVVM_Light_eksempel
 
 
             tileList = new List<Tile>();
+
+
+            previewTileInformation = new object[8] {TopLeft.Content, TopMiddle.Content, TopRight.Content, LeftMiddle.Content, RightMiddle.Content, BottomLeft.Content, BottomMiddle.Content, BottomRight.Content};
 
             InitGrid();
             InitTreeView();
@@ -391,6 +396,8 @@ namespace MVVM_Light_eksempel
                     {
                         Console.WriteLine("Hmm?");
 
+                        Fields[x, y].Path = (e.Data.GetData("image") as Image).Source.ToString();
+
                         BitmapImage imageBitmap = new BitmapImage(new Uri((e.Data.GetData("image") as Image).Source.ToString()));
 
                         fields[x, y].Image.Source = imageBitmap;
@@ -418,7 +425,82 @@ namespace MVVM_Light_eksempel
                         
 
                         fields[x, y].Image.RenderTransform = new RotateTransform(angle);
-                        
+                        fields[x, y].RotationAngle = angle;
+
+
+                        if (Int32.Parse(previewTileInformation[0].ToString()) == 1)
+                        {
+                            fields[x, y].TopLeft = true;
+                        }
+                        else
+                        {
+                            fields[x, y].TopLeft = false;
+                        }
+
+                        if (Int32.Parse(previewTileInformation[1].ToString()) == 1)
+                        {
+                            fields[x, y].TopMiddle = true;
+                        }
+                        else
+                        {
+                            fields[x, y].TopMiddle = false;
+                        }
+
+                        if (Int32.Parse(previewTileInformation[2].ToString()) == 1)
+                        {
+                            fields[x, y].TopRight = true;
+                        }
+                        else
+                        {
+                            fields[x, y].TopRight = false;
+                        }
+
+                        if (Int32.Parse(previewTileInformation[3].ToString()) == 1)
+                        {
+                            fields[x, y].LeftMiddle = true;
+                        }
+                        else
+                        {
+                            fields[x, y].LeftMiddle = false;
+                        }
+
+                        if (Int32.Parse(previewTileInformation[4].ToString()) == 1)
+                        {
+                            fields[x, y].RightMiddle = true;
+                        }
+                        else
+                        {
+                            fields[x, y].RightMiddle = false;
+                        }
+
+                        if (Int32.Parse(previewTileInformation[5].ToString()) == 1)
+                        {
+                            fields[x, y].BottomLeft = true;
+                        }
+                        else
+                        {
+                            fields[x, y].BottomLeft = false;
+                        }
+
+                        if (Int32.Parse(previewTileInformation[6].ToString()) == 1)
+                        {
+                            fields[x, y].BottomMiddle = true;
+                        }
+                        else
+                        {
+                            fields[x, y].BottomMiddle = false;
+                        }
+
+                        if (Int32.Parse(previewTileInformation[7].ToString()) == 1)
+                        {
+                            fields[x, y].BottomRight = true;
+                        }
+                        else
+                        {
+                            fields[x, y].BottomRight = false;
+                        }
+
+
                         break;
                     }
                 }
@@ -482,5 +564,20 @@ namespace MVVM_Light_eksempel
 
 		}
 
-	}
+        private void TileInfo_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            if (Int32.Parse((sender as Button).Content.ToString()) == 1)
+            {
+                (sender as Button).Content = 0;
+            }
+            else
+            {
+                (sender as Button).Content = 1;
+            }
+
+            previewTileInformation = new object[8] { TopLeft.Content, TopMiddle.Content, TopRight.Content, LeftMiddle.Content, RightMiddle.Content, BottomLeft.Content, BottomMiddle.Content, BottomRight.Content };
+        }
+    }
 }

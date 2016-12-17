@@ -292,6 +292,7 @@ namespace CodeMvvm.ViewModel
 			}
 			int i = 0;
 			int j = 0;
+            /*
 			foreach (Tile U in TileMap)
 			{
 				if (i == 10)
@@ -311,7 +312,40 @@ namespace CodeMvvm.ViewModel
 				}
 				
 			}
+            */
+
+            foreach(Tile U in TileMap)
+            {
+                U.Path = tileDoubleArray[i, j].Path;
+                U.PositionX = tileDoubleArray[i, j].PositionX / 50;
+                U.PositionY = tileDoubleArray[i, j].PositionY / 50;
+                U.RotationAngle = tileDoubleArray[i, j].RotationAngle % -360;
+                U.TopLeft = tileDoubleArray[i, j].TopLeft;
+                U.TopMiddle = tileDoubleArray[i, j].TopMiddle;
+                U.TopRight = tileDoubleArray[i, j].TopRight;
+                U.LeftMiddle = tileDoubleArray[i, j].LeftMiddle;
+                U.RightMiddle = tileDoubleArray[i, j].RightMiddle;
+                U.BottomLeft = tileDoubleArray[i, j].BottomLeft;
+                U.BottomMiddle = tileDoubleArray[i, j].BottomMiddle;
+                U.BottomRight = tileDoubleArray[i, j].BottomRight;
+
+                if (i == 9 && j == 9)
+                {
+                    break;
+                }
+
+                if (j < 9)
+                {
+                    j++;
+                } else
+                {
+                    i++;
+                    j = 0;
+                }
+                
+            }
 			_db.SubmitChanges();
+
             /*for (int i = 0; i < _tileMapNumberOfXNodes; i++)
             {
                 for (int j = 0; j < _tileMapNumberOfYNodes; j++)

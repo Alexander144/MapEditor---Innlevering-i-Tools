@@ -165,7 +165,17 @@
         <Border x:Name="PreviewBorder" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="125" Margin="620,581,0,0" VerticalAlignment="Top" Width="376">
             <StackPanel Orientation="Horizontal">
                 <Image x:Name="PreviewImage" HorizontalAlignment="Left" Width="100" Height="100" Margin="14,0,0,0"/>
-                <Image x:Name="TileInfoImage" HorizontalAlignment="Left" Width="100" Height="100" Margin="14,0,0,0"/>
+                <WrapPanel x:Name="TileInfoPanel" Orientation="Horizontal" HorizontalAlignment="Left" Width="100" Height="100" Margin="14,0,0,0">
+                    <Button x:Name="TopLeft" HorizontalAlignment="Left" VerticalAlignment="Top" Width="33" Height="33" Click="TileInfo_Click" Content="1"/>
+                    <Button x:Name="TopMiddle" HorizontalAlignment="Center" VerticalAlignment="Top" Width="34" Height="33" Click="TileInfo_Click" Content="1"/>
+                    <Button x:Name="TopRight" HorizontalAlignment="Right" VerticalAlignment="Top" Width="33" Height="33" Click="TileInfo_Click" Content="1"/>
+                    <Button x:Name="LeftMiddle" HorizontalAlignment="Left" VerticalAlignment="Center" Width="33" Height="34" Click="TileInfo_Click" Content="1"/>
+                    <Button x:Name="RightMiddle" HorizontalAlignment="Right" VerticalAlignment="Center" Width="33" Height="34" Margin="34, 0, 0, 0" Click="TileInfo_Click" Content="1"/>
+                    <Button x:Name="BottomLeft" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="33" Height="33" Click="TileInfo_Click" Content="1"/>
+                    <Button x:Name="BottomMiddle" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="34" Height="33" Click="TileInfo_Click" Content="1"/>
+                    <Button x:Name="BottomRight" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="33" Height="33" Click="TileInfo_Click" Content="1"/>
+                </WrapPanel>
+               <!-- <Image x:Name="TileInfoImage" HorizontalAlignment="Left" Width="100" Height="100" Margin="14,0,0,0"/>-->
                 <Button x:Name="RotateButton" HorizontalAlignment="Right" Width="50" Height="50" Margin="50, 0, 0, 0" Click="RotateButton_Click">
                     <Image Source="Icons/rotate.png" />
                 </Button>
