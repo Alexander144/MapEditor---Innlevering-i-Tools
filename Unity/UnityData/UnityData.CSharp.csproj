@@ -64,9 +64,6 @@
     <Reference Include="LoadMapEditorData">
       <HintPath>Assets\plugins\LoadMapEditorData.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.Linq">
-      <HintPath>Assets\plugins\System.Data.Linq.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Test.cs" />
