@@ -30,7 +30,7 @@ namespace LoadMapEditorData
 		public string GetDataFromSQL()
 		{
 
-			SqlConnection sqlConnection = new SqlConnection("Data Source=192.168.1.242,1433; Network Library=DBMSSOCN; Initial Catalog=MapEditor; User=sa; Password=123;");
+			SqlConnection sqlConnection = new SqlConnection("Data Source=192.168.1.242\\(localdb)\\MSSQLLocalDB; Initial Catalog=MapEditor; User=Admin; Password=123;");
 			sqlConnection.Open();
 
 			SqlCommand cmd = sqlConnection.CreateCommand();
