@@ -23,7 +23,7 @@ namespace CodeMvvm.ViewModel
 	/// See http://www.galasoft.ch/mvvm
 	/// </para>
 	/// </summary>
-	public class MainViewModel : ViewModelBase
+	public class MainViewModel : ViewModelBase, INotifyPropertyChanged
 	{
 		#region Properties
 
@@ -290,18 +290,38 @@ namespace CodeMvvm.ViewModel
 			{
 				TileMap.Add(T);
 			}
-
-            for (int i = 0; i < _tileMapNumberOfXNodes; i++)
+			int i = 0;
+			int j = 0;
+			foreach (Tile U in TileMap)
+			{
+				if (i == 10)
+				{
+					break;
+				}
+				if (j < _tileMapNumberOfYNodes) {
+					U.PositionX = tileDoubleArray[i, j].PositionX;
+					U.PositionY = tileDoubleArray[i, j].PositionY;
+					U.Path = tileDoubleArray[i, j].Path;
+					j++;
+				}
+				else
+				{
+					i++;
+					j = 0;
+				}
+				
+			}
+			_db.SubmitChanges();
+            /*for (int i = 0; i < _tileMapNumberOfXNodes; i++)
             {
                 for (int j = 0; j < _tileMapNumberOfYNodes; j++)
                 {
-                    Tile tempTile = new Tile();
-                    tempTile.Path = tileDoubleArray[i, j].Path;
+					Tile tempTile = new Tile();
+					tempTile.Path = tileDoubleArray[i, j].Path;
 					TileMap[i]=tempTile;
-                }
-            }
-			_db.Refresh(RefreshMode.KeepChanges, TileMap);
-			_db.SubmitChanges();
+				}
+            }*/
+			
 		}
 
 
