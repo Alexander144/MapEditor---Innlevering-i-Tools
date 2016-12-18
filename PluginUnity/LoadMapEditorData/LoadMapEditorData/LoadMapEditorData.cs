@@ -43,7 +43,7 @@ namespace LoadMapEditorData
 			BottomLeft = new List<bool>();
 			BottomRight = new List<bool>();
 
-			SqlConnection sqlConnection = new SqlConnection("Data Source=toolsmapeditor.database.windows.net,1433; Network Library=DBMSSOCN; Initial Catalog=MapEditor; User=Tools; Password=Root123456789;");
+			SqlConnection sqlConnection = new SqlConnection("Data Source=mapeditortools.database.windows.net,1433; Network Library=DBMSSOCN; Initial Catalog=MapEditor; User=Tools; Password=Root123456789;");
 			sqlConnection.Open();
 
 			SqlCommand cmd = sqlConnection.CreateCommand();
