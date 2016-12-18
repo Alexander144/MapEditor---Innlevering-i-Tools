@@ -1,13 +1,63 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.IO;
+using UnityEngine;
 
 public class Test : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		LoadMapEditorData.LoadMapEditorData obj = new LoadMapEditorData.LoadMapEditorData();
-		print("Hell");
-		print("THis" + obj.GetDataFromSQL());
-	}
-	
+		public Vector2 currentPosition;
+		public GameObject Tile;
 
+	IEnumerator Start() {
+		LoadMapEditorData.LoadMapEditorData obj = new LoadMapEditorData.LoadMapEditorData();
+		obj.GetDataFromSQL();
+		Tile.transform.position = new Vector3(-1,-1,-1);
+
+		float x = 0.319f;
+		float y = 0.319f;
+		int tempx = 0;
+		int tempy = 0;
+		Vector3[] position = new Vector3[3];
+		position[0] = new Vector3(0,0,0);
+		position[1] = new Vector3(100, 0, 0);
+		position[2] = new Vector3(0, 100, 0);
+
+		for (int i = 0; i < obj.Id.Count; i++)
+		{
+
+			
+			
+			
+		   Texture2D texture = new Texture2D(25, 25, TextureFormat.ARGB32, false);
+			WWW www = new WWW(obj.Path[i]);
+			yield return www;
+			www.LoadImageIntoTexture(texture);
+			Tile.gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create(texture, new Rect(0,0,32,32),new Vector2(0.0f,0.0f));
+			//Tile.gameObject.GetComponent<Renderer>().material.mainTexture = texture;
+
+			//position[0] = new Vector3(0,0,0);
+			//Tile.gameObject.GetComponent<MeshFilter>().mesh.vertices = position;
+			if (obj.PositionX[i] != tempx)
+			{
+				//x += 5;
+				x += 0.319f;
+			}
+			
+			if (obj.PositionY[i] != tempy)
+			{
+				//y += 5;
+				y += 0.319f;
+			}
+			
+
+			currentPosition = new Vector2(y,x);
+			tempx = obj.PositionX[i];
+			tempy = obj.PositionY[i];
+
+			Instantiate(Tile, currentPosition, new Quaternion());
+			if (obj.PositionY[i] == 9)
+			{
+				y = 0;
+			}
+		}
+	}
 }

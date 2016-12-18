@@ -14,6 +14,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CodeMvvm.ViewModel
 {
@@ -283,16 +285,32 @@ namespace CodeMvvm.ViewModel
             System.Windows.Threading.Dispatcher.Run();
         }
 
-        public void UpdateTileMap(CodeMvvm.View.Tile[,] tileDoubleArray)
-        {
+		public void UpdateTileMap(CodeMvvm.View.Tile[,] tileDoubleArray)
+		{
+			//Adder rader hvis de ikke eksiterer, fungerer ikke
+			/*{
+				LinqToSQLClassesDataContext tempdb = new LinqToSQLClassesDataContext();
+				var count = tempdb.Tiles.Where(me => me.Id == 1).Count();
 
+				if (count == 0)
+				{
+					for (int d = 0; d < 100; d++)
+					{
+						Tile l = new Tile();
+						l.Id = d;
+						tempdb.Tiles.InsertOnSubmit(l);
+						
+					}
+					tempdb.SubmitChanges();
+				}
+			}*/
 			foreach (Tile T in _db.Tiles)
 			{
 				TileMap.Add(T);
 			}
 			int i = 0;
 			int j = 0;
-            /*
+			/*
 			foreach (Tile U in TileMap)
 			{
 				if (i == 10)
@@ -313,7 +331,7 @@ namespace CodeMvvm.ViewModel
 				
 			}
             */
-
+			
             foreach(Tile U in TileMap)
             {
                 U.Path = tileDoubleArray[i, j].Path;
@@ -342,9 +360,9 @@ namespace CodeMvvm.ViewModel
                     i++;
                     j = 0;
                 }
-                
+               
             }
-			_db.SubmitChanges();
+			 _db.SubmitChanges();
 
             /*for (int i = 0; i < _tileMapNumberOfXNodes; i++)
             {

@@ -13,4 +13,5 @@
     [BottomMiddle] BIT NULL, 
     [BottomLeft] BIT NULL, 
     [LeftMiddle] BIT NULL
+
 )

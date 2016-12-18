@@ -346,7 +346,7 @@ namespace MVVM_Light_eksempel
                 DataObject dragData = new DataObject("image", img);
 
 
-                DragDrop.DoDragDrop(img, dragData, DragDropEffects.Move);
+				DragDrop.DoDragDrop(img, dragData, DragDropEffects.Move);
 
                 /*
                 // Get the dragged ListViewItem
