@@ -13,15 +13,12 @@ public class Test : MonoBehaviour {
 		LoadMapEditorData.LoadMapEditorData obj = new LoadMapEditorData.LoadMapEditorData();
 		obj.GetDataFromSQL();
 		Tile.transform.position = new Vector3(-1,-1,-1);
-
 		float x = 0.319f;
 		float y = 0.319f;
 		int tempx = 0;
 		int tempy = 0;
-		Vector3[] position = new Vector3[3];
-		position[0] = new Vector3(0,0,0);
-		position[1] = new Vector3(100, 0, 0);
-		position[2] = new Vector3(0, 100, 0);
+		
+		
 
 		for (int i = 0; i < obj.Id.Count; i++)
 		{
@@ -63,8 +60,10 @@ public class Test : MonoBehaviour {
 				{
 					finalImageToString += t;
 				}
-
+				
+				
 				Tile.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/" + finalImageToString);
+				
 			}
 		
 				
@@ -82,7 +81,11 @@ public class Test : MonoBehaviour {
 			currentPosition = new Vector2(y,x);
 			tempx = obj.PositionX[i];
 			tempy = obj.PositionY[i];
-
+			//Tile.transform.localEulerAngles.z = obj.RotationAngle[i];
+			if (obj.RotationAngle[i] == -270)
+			{
+				obj.RotationAngle[i] = 90;
+			}  
 			Instantiate(Tile, currentPosition, new Quaternion());
 			if (obj.PositionY[i] == 9)
 			{

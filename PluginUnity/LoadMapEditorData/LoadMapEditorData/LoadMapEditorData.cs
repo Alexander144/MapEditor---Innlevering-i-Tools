@@ -43,7 +43,7 @@ namespace LoadMapEditorData
 			BottomLeft = new List<bool>();
 			BottomRight = new List<bool>();
 
-			SqlConnection sqlConnection = new SqlConnection("Data Source=mapeditortools.database.windows.net,1433; Network Library=DBMSSOCN; Initial Catalog=MapEditor; User=Tools; Password=Root123456789;");
+			SqlConnection sqlConnection = new SqlConnection("Data Source=editor.database.windows.net,1433; Network Library=DBMSSOCN; Initial Catalog=MapEditor; User=Tools; Password=Root123456789;");
 			sqlConnection.Open();
 
 			SqlCommand cmd = sqlConnection.CreateCommand();
@@ -58,9 +58,22 @@ namespace LoadMapEditorData
 				PositionX.Add((int)read["PositionX"]);
 				PositionY.Add((int)read["PositionY"]);
 				Path.Add((string)read["Path"]);
-				//RotationAngle.Add((float)read["RotationAngle"]);
+				RotationAngle.Add((int)read["RotationAngle"]);
 
 			}
+			//Id.Reverse();
+			//PositionX.Reverse();
+			//PositionY.Reverse();
+			//Path.Reverse();
+			//RotationAngle.Reverse();
+			//TopLeft.Reverse();
+			//TopMiddle.Reverse();
+			//TopRight.Reverse();
+			//RightMiddle.Reverse();
+			//BottomRight.Reverse();
+			//BottomMiddle.Reverse();
+			//BottomLeft.Reverse();
+			//BottomRight.Reverse();
 		}
 	}
 }
