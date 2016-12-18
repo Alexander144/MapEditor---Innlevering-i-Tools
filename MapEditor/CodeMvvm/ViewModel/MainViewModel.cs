@@ -274,17 +274,6 @@ namespace CodeMvvm.ViewModel
 
 		public void UpdateTileMap(CodeMvvm.View.Tile[,] tileDoubleArray)
 		{
-			var count = _db.Tiles.Where(me => me.Id == 1).Count();
-			if(count == 0)
-			{
-				for (int d = 0; d < 100; d++)
-				{
-					Tile l = new Tile();
-					l.Id = d;
-					_db.Tiles.InsertOnSubmit(l);
-
-				}
-			}
 
 
 
@@ -341,6 +330,7 @@ namespace CodeMvvm.ViewModel
             UsersMap = new UserColletction();
             _usersDB = db;
             ReadFileUser();
+			TilesHaveValues();
             UsersMap.GetData(_usersDB);
 
 
@@ -348,10 +338,28 @@ namespace CodeMvvm.ViewModel
 
 
         }
-        private void ReadFileUser()
-        {
 
-            FileInfo file = new FileInfo("User.txt");
+		private void TilesHaveValues()
+		{
+			var count = _db.Tiles.Where(me => me.Id == 1).Count();
+			if (count == 0)
+			{
+				for (int d = 0; d < 100; d++)
+				{
+					Tile l = new Tile();
+					l.Id = d;
+					_db.Tiles.InsertOnSubmit(l);
+					
+				}
+				_db.SubmitChanges();
+			}
+		}
+
+		private void ReadFileUser()
+        {
+		
+			
+			FileInfo file = new FileInfo("User.txt");
             if (file.Exists)
             {
                 StreamReader reader = file.OpenText();
