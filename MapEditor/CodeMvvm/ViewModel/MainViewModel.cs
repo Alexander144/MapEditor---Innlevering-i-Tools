@@ -8,6 +8,8 @@ using System.ComponentModel;
 using System.Threading;
 using System.IO;
 using System.Linq;
+using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace CodeMvvm.ViewModel
 {
@@ -166,24 +168,29 @@ namespace CodeMvvm.ViewModel
         private UserColletction _usersMap;
         private LinqToSQLClassesDataContext _usersDB;
         private string UserInFile;
+		private DispatcherTimer dispatcherTimer;
 
 
-        #endregion
+		#endregion
 
 
-        #region Methods
+		#region Methods
 
 
-        //General methods
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
-        /// </summary>
-        public MainViewModel() {
+		//General methods
+		/// <summary>
+		/// Initializes a new instance of the MainViewModel class.
+		/// </summary>
+		public MainViewModel() {
 			_db = new LinqToSQLClassesDataContext();
 			InitUserViewModel(_db);
 			GetDataFromSQL();
 			CreateCommands();
-        }
+			dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+			dispatcherTimer.Tick += new EventHandler(UpdateData);
+			dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
+			dispatcherTimer.Start();
+		}
 
 		private void GetDataFromSQL()
 		{
@@ -405,10 +412,22 @@ namespace CodeMvvm.ViewModel
             saveThread.IsBackground = true;
             saveThread.Start();
 
-        }
+		}
+
+		
+		private void UpdateData(object sender, EventArgs e)
+		{
+		
+			//_db.Refresh(RefreshMode.OverwriteCurrentValues, UsersMap);
+			
+			CollectionViewSource.GetDefaultView(UsersMap).Refresh();
+			UsersMap.RefreshData();
+			UsersMap.AddNewData();
+			
+ 		}
 
 
-        private void SaveUsersThread()
+		private void SaveUsersThread()
         {
 
             if (LoginUserMap.Name == null)
