@@ -2,6 +2,7 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="LinqToSQLClasses">
   <DataContextMoniker Name="/LinqToSQLClassesDataContext" />
   <nestedChildShapes>
+
     <classShape Id="d0bfb590-75d3-42a1-b3ec-77574ae46424" absoluteBounds="7.5, 2.125, 2, 3.3093082682291666">
       <DataClassMoniker Name="/LinqToSQLClassesDataContext/Tile" />
       <nestedChildShapes>
@@ -12,6 +13,7 @@
       <DataClassMoniker Name="/LinqToSQLClassesDataContext/User" />
       <nestedChildShapes>
         <elementListCompartment Id="0e8e66b0-8b9b-4b96-99fd-dbbc3d79897e" absoluteBounds="5.265, 3.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>
