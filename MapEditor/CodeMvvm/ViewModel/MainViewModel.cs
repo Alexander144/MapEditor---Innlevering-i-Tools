@@ -186,7 +186,7 @@ namespace CodeMvvm.ViewModel
 			InitUserViewModel(_db);
 			GetDataFromSQL();
 			CreateCommands();
-			dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+			dispatcherTimer = new DispatcherTimer();
 			dispatcherTimer.Tick += new EventHandler(UpdateData);
 			dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
 			dispatcherTimer.Start();
@@ -417,14 +417,20 @@ namespace CodeMvvm.ViewModel
 		
 		private void UpdateData(object sender, EventArgs e)
 		{
-		
-			//_db.Refresh(RefreshMode.OverwriteCurrentValues, UsersMap);
-			
-			CollectionViewSource.GetDefaultView(UsersMap).Refresh();
-			UsersMap.RefreshData();
-			UsersMap.AddNewData();
-			
+
+            Thread saveThread = new Thread(new ThreadStart(UpdateDataThread));
+            saveThread.SetApartmentState(ApartmentState.STA);
+            saveThread.IsBackground = true;
+            saveThread.Start();
+	
  		}
+
+        private void UpdateDataThread()
+        {
+            CollectionViewSource.GetDefaultView(UsersMap).Refresh();
+            UsersMap.RefreshData();
+            UsersMap.AddNewData();
+        }
 
 
 		private void SaveUsersThread()

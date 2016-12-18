@@ -524,11 +524,9 @@ namespace MVVM_Light_eksempel
 
 
         //Updates the tilemap to represent the tiles in the database. Called from view.
+
         public void UpdateTiles(System.Data.Linq.Table<CodeMvvm.Tile> convertableTiles)
         {
-            Console.WriteLine("Donkey Kong");
-
-
             int i = 0;
             int j = 0;
 
