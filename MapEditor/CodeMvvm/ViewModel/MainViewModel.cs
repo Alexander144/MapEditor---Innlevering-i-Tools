@@ -236,18 +236,17 @@ namespace CodeMvvm.ViewModel
 
 		public void SaveTiles(CodeMvvm.View.Tile[,] tileDoubleArray) {
 
-            Console.WriteLine("Saving tiles...");
+            //Console.WriteLine("Saving tiles...");
             if (tileDoubleArray == null)
             {
-                Console.WriteLine("Tile array is null...");
+                //Console.WriteLine("Tile array is null...");
             }
 
             for (int i = 0; i < _tileMapNumberOfXNodes; i++)
             {
                 for (int j = 0; j < _tileMapNumberOfYNodes; j++)
                 {
-                    Console.WriteLine(tileDoubleArray[i, j].Path);
-                    Console.WriteLine("Hei");
+                    //Console.WriteLine(tileDoubleArray[i, j].Path);
                 }
             }
 
@@ -438,12 +437,12 @@ namespace CodeMvvm.ViewModel
 
             if (LoginUserMap.Name == null)
             {
-                Console.WriteLine("feltet kan ikke være tomt");
+                Console.WriteLine("This field can not be empty.");
 
             }
             else
             {
-                Console.WriteLine(LoginUserMap.Name + LoginUserMap.Name.Length);
+                //Console.WriteLine(LoginUserMap.Name + LoginUserMap.Name.Length);
                 bool ErrorSendDatabase = false;
                 LoginUserMap.IsUserOn = 1;
                 _usersDB.Users.InsertOnSubmit(LoginUserMap);
@@ -454,7 +453,7 @@ namespace CodeMvvm.ViewModel
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Brukeren eksisterer allerede" + e);
+                    Console.WriteLine("This username allready exists." + e);
                     ErrorSendDatabase = true;
                 }
                 finally

@@ -22,7 +22,7 @@ namespace WPF_Explorer_Tree
         public object Convert(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
-            Console.WriteLine(value as string);
+            //Console.WriteLine(value as string);
             if ((value as string).Length == 3)
             {
                 Uri uri = new Uri

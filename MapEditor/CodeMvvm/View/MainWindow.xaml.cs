@@ -224,7 +224,7 @@ namespace MVVM_Light_eksempel
 
         private void MouseClickedOnFileName(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("User clicked on image");
+            //Console.WriteLine("User clicked on image");
             if (sender.GetType() == typeof(TreeViewItem))
             {
                 TreeViewItem senderTreeViewItem = (TreeViewItem)sender;
@@ -250,7 +250,7 @@ namespace MVVM_Light_eksempel
 
 
 
-                    Console.WriteLine(_tileList[0].Name);
+                    //Console.WriteLine(_tileList[0].Name);
                 }
                 else
                 {
@@ -259,8 +259,8 @@ namespace MVVM_Light_eksempel
                     foreach (Tile t in _tileList)
                     {
 
-                        Console.WriteLine(t.Path);
-                        Console.WriteLine(_lastHierarchyImageClicked.Tag as string);
+                       //Console.WriteLine(t.Path);
+                        //Console.WriteLine(_lastHierarchyImageClicked.Tag as string);
                         if (t.Path == _lastHierarchyImageClicked.Tag as string)
                         {
                             tileIsInList = true;
@@ -331,7 +331,7 @@ namespace MVVM_Light_eksempel
                 e.Effects = DragDropEffects.None;
             }
 
-            Console.WriteLine("TileHovering");
+            //Console.WriteLine("TileHovering");
             (sender as Image).Opacity = 0.5;
         }
 
@@ -344,7 +344,7 @@ namespace MVVM_Light_eksempel
         {
 
             Point imageLocation = (sender as Image).TransformToAncestor(Application.Current.MainWindow).Transform(new Point(0, 0));
-            Console.WriteLine(imageLocation.ToString());
+            //Console.WriteLine(imageLocation.ToString());
 
             for (int x = 0; x < _numberOfXNodes; x++)
             {
@@ -352,7 +352,6 @@ namespace MVVM_Light_eksempel
                 {
                     if (imageLocation == new Point(_tileMap[y, x].PositionX, _tileMap[y, x].PositionY))
                     {
-                        Console.WriteLine("Hmm?");
 
                         TileMap[x, y].Path = (e.Data.GetData("image") as Image).Source.ToString();
 
@@ -360,7 +359,7 @@ namespace MVVM_Light_eksempel
 
                         _tileMap[x, y].Image.Source = imageBitmap;
 
-						Console.WriteLine((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString());
+						//Console.WriteLine((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString());
 
                         //This one can just be a reference in this assignment, since we never change it and for some (stupid) reason, Point.ToString() gives different outputs on different computers (yes we had to debug that).
                         _tileMap[x, y].Image.RenderTransformOrigin = (e.Data.GetData("image") as Image).RenderTransformOrigin;
@@ -408,7 +407,6 @@ namespace MVVM_Light_eksempel
 
                 if (_currentPreviewImg == null)
                 {
-                    Console.WriteLine("null");
                     _currentPreviewImg = new Image();
                     _currentPreviewImg.Source = PreviewImage.Source;
                     _rotate = new RotateTransform(-90);
@@ -416,16 +414,14 @@ namespace MVVM_Light_eksempel
                 else
                 {
 
-                    Console.WriteLine(_currentPreviewImg.Source.ToString() + " - " + PreviewImage.Source.ToString());
+                    //Console.WriteLine(_currentPreviewImg.Source.ToString() + " - " + PreviewImage.Source.ToString());
                     if (_currentPreviewImg.Source != PreviewImage.Source)
                     {
-                        Console.WriteLine("Check");
                         _rotate.Angle = -90;
                         _currentPreviewImg.Source = PreviewImage.Source;
                     }
                     else
                     {
-                        Console.WriteLine("What?");
                         _rotate.Angle -= 90;
                     }
                 }
@@ -461,7 +457,6 @@ namespace MVVM_Light_eksempel
             Tile t = new Tile(_lastHierarchyImageClicked.Header as string, _lastHierarchyImageClicked.Tag as string, new Image());
             t.Image.Source = imageBitmap;
 
-            Console.WriteLine("Ye");
             t.Image.Height = 70;
             t.Image.Width = 70;
             t.Image.AddHandler(PreviewMouseLeftButtonDownEvent, new RoutedEventHandler(MouseClickedOnCollectionImage));
