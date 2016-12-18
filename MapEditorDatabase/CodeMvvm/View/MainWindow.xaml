@@ -89,8 +89,8 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem Header="_New"/>
-                    <MenuItem Header="_Open"/>
-                    <MenuItem Header="_Save"  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=Fields}" Command="{Binding SaveTilesCommand}"/>
+                    <MenuItem Header="_Load" CommandParameter="{Binding DBTiles}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=UpdateTilesCommand}"/>
+                    <MenuItem Header="_Save" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=Fields}" Command="{Binding SaveTilesCommand}"/>
                 </MenuItem>
             </Menu>
             <StackPanel></StackPanel>

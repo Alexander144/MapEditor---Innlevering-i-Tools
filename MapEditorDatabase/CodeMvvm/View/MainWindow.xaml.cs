@@ -77,7 +77,71 @@ namespace MVVM_Light_eksempel
 
             InitGrid();
             InitTreeView();
+            CreateCommands();
 
+        }
+
+        //Tile related commands
+        public ICommand UpdateTilesCommand
+        {
+            get
+            {
+                return new RelayCommand<System.Data.Linq.Table<CodeMvvm.Tile>>(UpdateTiles);
+            }
+            set
+            {
+
+            }
+        }
+
+        public void CreateCommands()
+        {
+            UpdateTilesCommand = new RelayCommand<System.Data.Linq.Table<CodeMvvm.Tile>>(UpdateTiles);
+        }
+
+        public void UpdateTiles(System.Data.Linq.Table<CodeMvvm.Tile> convertableTiles)
+        {
+            Console.WriteLine("Donkey Kong");
+
+
+            int i = 0;
+            int j = 0;
+
+            foreach (CodeMvvm.Tile t in convertableTiles)
+            {
+
+                BitmapImage imageBitmap = new BitmapImage(new Uri(t.Path));
+                fields[i, j].Image.Source = imageBitmap;
+                fields[i, j].Path = t.Path;
+                fields[i, j].PositionX = (int) (50 * t.PositionX + 20);
+                fields[i, j].PositionY = (int) (50 * t.PositionY + 40);
+                fields[i, j].RotationAngle = (float)t.RotationAngle;
+                fields[i, j].TopLeft = (bool) t.TopLeft;
+                fields[i, j].TopMiddle = (bool)t.TopMiddle;
+                fields[i, j].TopRight = (bool)t.TopRight;
+                fields[i, j].LeftMiddle = (bool)t.LeftMiddle;
+                fields[i, j].RightMiddle = (bool)t.RightMiddle;
+                fields[i, j].BottomLeft = (bool)t.RightMiddle;
+                fields[i, j].BottomMiddle = (bool)t.BottomMiddle;
+                fields[i, j].BottomRight = (bool)t.BottomRight;
+
+
+
+                if (i == 9 && j == 9)
+                {
+                    break;
+                }
+
+                if (j < 9)
+                {
+                    j++;
+                }
+                else
+                {
+                    i++;
+                    j = 0;
+                }
+            }
         }
 
         public void InitGrid()

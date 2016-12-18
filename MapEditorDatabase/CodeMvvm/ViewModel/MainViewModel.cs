@@ -48,6 +48,14 @@ namespace CodeMvvm.ViewModel
 		}
 
 
+        public Table<Tile> DBTiles
+        {
+            get
+            {
+                return _db.Tiles;
+            }
+        }
+
         //User properties
         public UserColletction UsersMap
         {
@@ -135,14 +143,6 @@ namespace CodeMvvm.ViewModel
 		public ICommand CancelCommand {
 			get; private set;
 		}
-
-
-
-
-
-
-
-
 
         //USer related commands
         public ICommand SaveUserCommand
