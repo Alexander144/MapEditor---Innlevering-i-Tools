@@ -28,59 +28,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <!--
-    <Grid x:Name="LayoutRoot" Margin="10">
-    
-    <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-    -->
-    <!-- 
-        Fill the entire first row (span two columns) with our general info.
-        A StackPanel will layout all its children either horizontal or vertical using their desired size
-        -->
-    <!-- <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal"> -->
-    <!--
-            {Binding CharacterName} is a short hand version for writing {Binding Path=CharacterName} where Path is a property
-            Bindings have many other usefull properties like: Converter, ConverterParameter, Mode, ValidationRules, StringFormat etc.
-            -->
-    <!--
-            <TextBlock Text="ID" />
-            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding TileMap[0].Id}" />
-            <TextBlock Text="PosX" />
-            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding TileMap[0].PositionX}" />
-            <TextBlock Text="PosY" />
-            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding TileMap[0].PositionY}" />
-
-
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,10,0,-7" Grid.RowSpan="2">
-            <TextBlock Text="ID" />
-            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding FrontTiless[0].Id}" />
-            <TextBlock Text="PosX" />
-            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding FrontTiless[0].posX}" />
-            <TextBlock Text="PosY" />
-            <TextBox Margin="10,0,0,0" Width="128" Text="{Binding FrontTiless[0].posY}" />
-        </StackPanel>
-
-        <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-           
-    <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions> -->
-
-    <!--
-            <Button Grid.Column="0" Content="Save" Width="150" Command="{Binding SaveCommand}" Click="Button_Click" Margin="50,39,50,-39" />
-            <Button Grid.Column="1" Content="Cancel" Width="150" Command="{Binding CancelCommand}" Margin="50,39,49,-39" />
-        </Grid>
-    </Grid>-->
 
 
     <Grid x:Name="LayoutRoot">
@@ -88,35 +35,14 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_New"/>
-                    <MenuItem Header="_Load" CommandParameter="{Binding DBTiles}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=UpdateTilesCommand}"/>
-                    <MenuItem Header="_Save" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=Fields}" Command="{Binding SaveTilesCommand}"/>
+                    <MenuItem Header="_Load From Database" CommandParameter="{Binding DBTiles}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=UpdateTilesCommand}"/>
+                    <MenuItem Header="_Save To Database" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=TileMap}" Command="{Binding SaveTilesCommand}"/>
                 </MenuItem>
             </Menu>
             <StackPanel></StackPanel>
         </DockPanel>
 
-        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="500" Margin="20,40,0,0" VerticalAlignment="Top" Width="500">
-
-            <!--
-            <ItemsControl ItemsSource="{Binding TileMap}" VerticalAlignment="Top" HorizontalAlignment="Left">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <Image Width="50" Height="50" Source="{Binding Path}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="10" Rows="10">
-                        </UniformGrid>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            
-            -->
-        </Canvas>
+        <Canvas x:Name="MainCanvas" HorizontalAlignment="Left" Height="500" Margin="20,40,0,0" VerticalAlignment="Top" Width="500"/>
 
 
         <TreeView x:Name="DirectoryTreeView"
@@ -161,7 +87,7 @@
                 <StackPanel x:Name="TextPanel" HorizontalAlignment="Left" Height="25" Margin="0,0,0,-24" VerticalAlignment="Bottom" Width="Auto" Orientation="Horizontal"/>
             </Grid>
         </ScrollViewer>
-        <Button x:Name="button" Content="Add image file to project" HorizontalAlignment="Left" Margin="620,520,0,0" VerticalAlignment="Top" Width="376" Click="button_Click"/>
+        <Button x:Name="AddImageButton" Content="Add image file to project" HorizontalAlignment="Left" Margin="620,520,0,0" VerticalAlignment="Top" Width="376" Click="AddImageButton_Click"/>
         <Border x:Name="PreviewBorder" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="125" Margin="620,581,0,0" VerticalAlignment="Top" Width="376">
             <StackPanel Orientation="Horizontal">
                 <Image x:Name="PreviewImage" HorizontalAlignment="Left" Width="100" Height="100" Margin="14,0,0,0"/>
@@ -175,25 +101,23 @@
                     <Button x:Name="BottomMiddle" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="34" Height="33" Click="TileInfo_Click" Content="1"/>
                     <Button x:Name="BottomRight" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="33" Height="33" Click="TileInfo_Click" Content="1"/>
                 </WrapPanel>
-               <!-- <Image x:Name="TileInfoImage" HorizontalAlignment="Left" Width="100" Height="100" Margin="14,0,0,0"/>-->
                 <Button x:Name="RotateButton" HorizontalAlignment="Right" Width="50" Height="50" Margin="50, 0, 0, 0" Click="RotateButton_Click">
                     <Image Source="Icons/rotate.png" />
                 </Button>
             </StackPanel>
         </Border>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="auto" Margin="525,10,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding UsersMap}">
+        <ListBox x:Name="listBox" HorizontalAlignment="Right" Height="auto" Margin="0,10,20,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding UsersMap}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Padding="5,0,5,0"
-                                   Text="{Binding Name}" />
+                                   Text="{Binding Name}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TextBox x:Name="textBox" Visibility="{Binding UserExist}" HorizontalAlignment="Left" Height="26" Margin="626,10,0,0" TextWrapping="Wrap" Text="{Binding LoginUserMap.Name}" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="button1" Visibility="{Binding UserExist}" Content="Enter" HorizontalAlignment="Left" Margin="726,10,0,0" VerticalAlignment="Top" Width="75" Height="26" Command="{Binding SaveUserCommand}" Click="button1_Click" />
-        <Button x:Name="button2" Content="LogOut" HorizontalAlignment="Left" Margin="806,15,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ExitProgramCommand}"/>
+        <TextBox x:Name="textBox" Visibility="{Binding UserExist}" HorizontalAlignment="Right" Height="26" Margin="0,10,224,0" TextWrapping="Wrap" Text="{Binding LoginUserMap.Name}" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="EnterUsernameButton" Visibility="{Binding UserExist}" Content="Enter Username" HorizontalAlignment="Right" Margin="0,10,125,0" VerticalAlignment="Top" Width="100" Height="26" Command="{Binding SaveUserCommand}"/>
 
     </Grid>
 </Window>

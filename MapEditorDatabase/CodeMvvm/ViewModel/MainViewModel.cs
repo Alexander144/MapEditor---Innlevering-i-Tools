@@ -1,21 +1,12 @@
 ﻿using System.Windows.Input;
-using System.Windows.Navigation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using CodeMvvm.Model;
 using System;
 using System.Data.Linq;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Net.NetworkInformation;
 using System.Threading;
-using System.Windows.Controls.Primitives;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using System.Windows;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CodeMvvm.ViewModel
 {
@@ -159,9 +150,6 @@ namespace CodeMvvm.ViewModel
 
         #region Private fields
 
-        //General fields
-        public event PropertyChangedEventHandler PropertyChanged;
-
         //Tile related fields
         private TileCollection _tileMap;
 		private LinqToSQLClassesDataContext _db;
@@ -226,9 +214,7 @@ namespace CodeMvvm.ViewModel
 		private void CreateCommands() {
 			SaveTilesCommand = new RelayCommand<CodeMvvm.View.Tile[,]>(SaveTiles);
             CancelCommand = new RelayCommand(LoadTiles);
-
             ExitProgramCommand = new RelayCommand(Exit);
-
             SaveUserCommand = new RelayCommand(SaveUsers);
             CancelUserCommand = new RelayCommand(UpdateList);
 
@@ -248,9 +234,9 @@ namespace CodeMvvm.ViewModel
                 Console.WriteLine("Tile array is null...");
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < _tileMapNumberOfXNodes; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < _tileMapNumberOfYNodes; j++)
                 {
                     Console.WriteLine(tileDoubleArray[i, j].Path);
                     Console.WriteLine("Hei");
@@ -287,56 +273,20 @@ namespace CodeMvvm.ViewModel
 
 		public void UpdateTileMap(CodeMvvm.View.Tile[,] tileDoubleArray)
 		{
-			//Adder rader hvis de ikke eksiterer, fungerer ikke
-			/*{
-				LinqToSQLClassesDataContext tempdb = new LinqToSQLClassesDataContext();
-				var count = tempdb.Tiles.Where(me => me.Id == 1).Count();
-
-				if (count == 0)
-				{
-					for (int d = 0; d < 100; d++)
-					{
-						Tile l = new Tile();
-						l.Id = d;
-						tempdb.Tiles.InsertOnSubmit(l);
-						
-					}
-					tempdb.SubmitChanges();
-				}
-			}*/
 			foreach (Tile T in _db.Tiles)
 			{
 				TileMap.Add(T);
 			}
+
+
 			int i = 0;
 			int j = 0;
-			/*
-			foreach (Tile U in TileMap)
-			{
-				if (i == 10)
-				{
-					break;
-				}
-				if (j < _tileMapNumberOfYNodes) {
-					U.PositionX = tileDoubleArray[i, j].PositionX;
-					U.PositionY = tileDoubleArray[i, j].PositionY;
-					U.Path = tileDoubleArray[i, j].Path;
-					j++;
-				}
-				else
-				{
-					i++;
-					j = 0;
-				}
-				
-			}
-            */
 			
             foreach(Tile U in TileMap)
             {
                 U.Path = tileDoubleArray[i, j].Path;
-                U.PositionX = tileDoubleArray[i, j].PositionX / 50;
-                U.PositionY = tileDoubleArray[i, j].PositionY / 50;
+                U.PositionX = tileDoubleArray[i, j].PositionX / _tileColumnWidth;
+                U.PositionY = tileDoubleArray[i, j].PositionY /_tileRowHeight;
                 U.RotationAngle = (int) tileDoubleArray[i, j].RotationAngle % -360;
                 U.TopLeft = tileDoubleArray[i, j].TopLeft;
                 U.TopMiddle = tileDoubleArray[i, j].TopMiddle;
@@ -347,12 +297,12 @@ namespace CodeMvvm.ViewModel
                 U.BottomMiddle = tileDoubleArray[i, j].BottomMiddle;
                 U.BottomRight = tileDoubleArray[i, j].BottomRight;
 
-                if (i == 9 && j == 9)
+                if (i == _tileMapNumberOfXNodes - 1 && j == _tileMapNumberOfYNodes - 1)
                 {
                     break;
                 }
 
-                if (j < 9)
+                if (j < _tileMapNumberOfYNodes - 1)
                 {
                     j++;
                 } else
@@ -363,16 +313,6 @@ namespace CodeMvvm.ViewModel
                
             }
 			 _db.SubmitChanges();
-
-            /*for (int i = 0; i < _tileMapNumberOfXNodes; i++)
-            {
-                for (int j = 0; j < _tileMapNumberOfYNodes; j++)
-                {
-					Tile tempTile = new Tile();
-					tempTile.Path = tileDoubleArray[i, j].Path;
-					TileMap[i]=tempTile;
-				}
-            }*/
 			
 		}
 
@@ -413,11 +353,7 @@ namespace CodeMvvm.ViewModel
                     LoginUserMap.IsUserOn = 1;
 
 
-                    //_db.SubmitChanges();
-
-
-
-                    //_db.Refresh(RefreshMode.OverwriteCurrentValues, LoginUserMap);
+                    _db.SubmitChanges();
 
                 }
             }
@@ -478,11 +414,7 @@ namespace CodeMvvm.ViewModel
                     if (!ErrorSendDatabase)
                     {
                         UserExist = "Hidden";
-                        //System.IO.StreamWriter file = new System.IO.StreamWriter("User.txt");
                         File.AppendAllText("User.txt", string.Format("{0}{1}{2}", LoginUserMap.Name, Environment.NewLine, LoginUserMap.Id));
-                        //_db.Users.Attach(LoginUserMap);
-                        //file.Write(string.Format("{0}{1}{2}", LoginUserMap.Name, Environment.NewLine, LoginUserMap.Id));
-                        //file.Close();
                     }
                 }
             }

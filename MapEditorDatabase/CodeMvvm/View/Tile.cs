@@ -7,6 +7,8 @@ using System.Windows.Controls;
 
 namespace CodeMvvm.View
 {
+
+    //A custom Tile class made to be easily convertable to a Database Tile class, and made for easy use with the MainWindow.xaml.cs infrastucture
     public class Tile
     {
         public string Name;

@@ -24,7 +24,6 @@ namespace WPF_Explorer_Tree
         {
             Console.WriteLine(value as string);
             if ((value as string).Length == 3)
-            //if ((value as string).Contains(@"\"))
             {
                 Uri uri = new Uri
                 ("pack://application:,,,/View/Icons/hard_drive.png");
@@ -33,25 +32,12 @@ namespace WPF_Explorer_Tree
             }
             else if ((value as string).Contains(".png"))
             {
-
-
-
                 string s = (value as string);
                 var icon = Icon.ExtractAssociatedIcon(s);
                 var bmp = icon.ToBitmap();
                 BitmapImage source = BitMapConverter.ToBitmapImage(bmp);
                 return source;
 
-
-                //Console.WriteLine(value as string);
-
-
-                /*
-                Uri uri = new Uri
-                ("pack://application:,,,/Sprites/mini.jpg");
-                BitmapImage source = new BitmapImage(uri);
-                return source;
-                */
             }
             {
                 Uri uri = new Uri("pack://application:,,,/View/Icons/folder.ico");
