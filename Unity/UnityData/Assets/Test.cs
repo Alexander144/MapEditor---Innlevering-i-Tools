@@ -24,18 +24,11 @@ public class Test : MonoBehaviour {
 		for (int i = 0; i < obj.Id.Count; i++)
 		{
 
-			
-			
-			
-		   Texture2D texture = new Texture2D(25, 25, TextureFormat.ARGB32, false);
 			WWW www = new WWW(obj.Path[i]);
 			yield return www;
-			www.LoadImageIntoTexture(texture);
-			Tile.gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create(texture, new Rect(0,0,32,32),new Vector2(0.0f,0.0f));
-			//Tile.gameObject.GetComponent<Renderer>().material.mainTexture = texture;
-
-			//position[0] = new Vector3(0,0,0);
-			//Tile.gameObject.GetComponent<MeshFilter>().mesh.vertices = position;
+		
+			Tile.gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create(www.texture, new Rect(0,0, www.texture.width, www.texture.height),new Vector2(0.0f,0.0f));
+		
 			if (obj.PositionX[i] != tempx)
 			{
 				//x += 5;
