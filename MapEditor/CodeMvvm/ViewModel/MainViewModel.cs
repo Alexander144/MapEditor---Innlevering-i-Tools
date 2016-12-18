@@ -417,18 +417,10 @@ namespace CodeMvvm.ViewModel
 		private void UpdateData(object sender, EventArgs e)
 		{
 
-            Thread saveThread = new Thread(new ThreadStart(UpdateDataThread));
-            saveThread.SetApartmentState(ApartmentState.STA);
-            saveThread.IsBackground = true;
-            saveThread.Start();
-	
- 		}
-
-        private void UpdateDataThread()
-        {
             CollectionViewSource.GetDefaultView(UsersMap).Refresh();
             UsersMap.RefreshData();
             UsersMap.AddNewData();
+
         }
 
 
