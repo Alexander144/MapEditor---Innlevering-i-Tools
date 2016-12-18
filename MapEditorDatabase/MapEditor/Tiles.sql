@@ -4,7 +4,7 @@
     [PositionX] INT NULL, 
     [PositionY] INT NULL, 
     [Path] VARCHAR(MAX) NULL, 
-    [RotationAngle] FLOAT NULL, 
+    [RotationAngle] INT NULL, 
     [TopLeft] BIT NULL, 
     [TopMiddle] BIT NULL, 
     [TopRight] BIT NULL, 

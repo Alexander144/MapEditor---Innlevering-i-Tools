@@ -401,10 +401,11 @@ namespace MVVM_Light_eksempel
                         BitmapImage imageBitmap = new BitmapImage(new Uri((e.Data.GetData("image") as Image).Source.ToString()));
 
                         fields[x, y].Image.Source = imageBitmap;
-                        //fields[x, y].Image.Source = (e.Data.GetData("image") as Image).Source;
+						//fields[x, y].Image.Source = (e.Data.GetData("image") as Image).Source;
 
-                        float RenderTransformOriginX = float.Parse((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().Substring(0, (e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().LastIndexOf(",")));
-                        float renderTransformOriginY = float.Parse((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().Substring((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().LastIndexOf(",") + 1));
+						Console.WriteLine((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString());
+                        float RenderTransformOriginX = float.Parse((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().Substring(0, (e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().LastIndexOf(";")));
+                        float renderTransformOriginY = float.Parse((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().Substring((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().LastIndexOf(";") + 1));
 
                         Point renderTransformOrigin = new Point(RenderTransformOriginX, renderTransformOriginY);
                         fields[x, y].Image.RenderTransformOrigin = renderTransformOrigin;

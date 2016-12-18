@@ -337,7 +337,7 @@ namespace CodeMvvm.ViewModel
                 U.Path = tileDoubleArray[i, j].Path;
                 U.PositionX = tileDoubleArray[i, j].PositionX / 50;
                 U.PositionY = tileDoubleArray[i, j].PositionY / 50;
-                U.RotationAngle = tileDoubleArray[i, j].RotationAngle % -360;
+                U.RotationAngle = (int) tileDoubleArray[i, j].RotationAngle % -360;
                 U.TopLeft = tileDoubleArray[i, j].TopLeft;
                 U.TopMiddle = tileDoubleArray[i, j].TopMiddle;
                 U.TopRight = tileDoubleArray[i, j].TopRight;
