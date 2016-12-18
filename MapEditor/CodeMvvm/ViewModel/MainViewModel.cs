@@ -7,6 +7,7 @@ using System.Data.Linq;
 using System.ComponentModel;
 using System.Threading;
 using System.IO;
+using System.Linq;
 
 namespace CodeMvvm.ViewModel
 {
@@ -273,6 +274,20 @@ namespace CodeMvvm.ViewModel
 
 		public void UpdateTileMap(CodeMvvm.View.Tile[,] tileDoubleArray)
 		{
+			var count = _db.Tiles.Where(me => me.Id == 1).Count();
+			if(count == 0)
+			{
+				for (int d = 0; d < 100; d++)
+				{
+					Tile l = new Tile();
+					l.Id = d;
+					_db.Tiles.InsertOnSubmit(l);
+
+				}
+			}
+
+
+
 			foreach (Tile T in _db.Tiles)
 			{
 				TileMap.Add(T);
