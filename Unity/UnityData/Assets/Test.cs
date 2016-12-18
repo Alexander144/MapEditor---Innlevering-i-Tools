@@ -1,5 +1,7 @@
-﻿using System.Collections;
-using System.IO;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Test : MonoBehaviour {
@@ -26,18 +28,53 @@ public class Test : MonoBehaviour {
 
 			WWW www = new WWW(obj.Path[i]);
 			yield return www;
+			string imageExsist = www.error;
+			if (imageExsist == null)
+			{
+				Tile.gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.0f, 0.0f));
+			}
+			else
+			{
+				char[] image = obj.Path[i].ToCharArray();
+				
+				Array.Reverse(image);
+				List<char> finalImage = new List<char>();
+				//AddCharToList is there for to drop .png and .jpg, beacuse unity do not use it
+				bool AddCharToList = false;
+				for (int j = 0; j < image.Length; j++)
+				{
+					if (image[j].Equals('/'))
+					{
+						break;
+					}
+					
+					if (AddCharToList == true) {
+						finalImage.Add(image[j]);
+					}
+					if (image[j].Equals('.'))
+					{
+						AddCharToList = true;
+					}
+				}
+
+				finalImage.Reverse();
+				string finalImageToString = "";
+				foreach (char t in finalImage)
+				{
+					finalImageToString += t;
+				}
+
+				Tile.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/" + finalImageToString);
+			}
 		
-			Tile.gameObject.GetComponent<SpriteRenderer>().sprite = Sprite.Create(www.texture, new Rect(0,0, www.texture.width, www.texture.height),new Vector2(0.0f,0.0f));
-		
+				
 			if (obj.PositionX[i] != tempx)
 			{
-				//x += 5;
 				x += 0.319f;
 			}
 			
 			if (obj.PositionY[i] != tempy)
 			{
-				//y += 5;
 				y += 0.319f;
 			}
 			
