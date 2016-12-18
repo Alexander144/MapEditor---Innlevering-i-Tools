@@ -405,19 +405,27 @@ namespace MVVM_Light_eksempel
 
 						Console.WriteLine((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString());
 
-                        string indexValue = ",";
+
+                        fields[x, y].Image.RenderTransformOrigin = (e.Data.GetData("image") as Image).RenderTransformOrigin;
+
+
+
+
+                        /*
+                        string indexValue = ";";
 
                         if (!(e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().Contains(indexValue))
                         {
-                            indexValue = ";";
+                            indexValue = ",";
                         }
+
 
                         float RenderTransformOriginX = float.Parse((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().Substring(0, (e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().LastIndexOf(indexValue)));
                         float renderTransformOriginY = float.Parse((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().Substring((e.Data.GetData("image") as Image).RenderTransformOrigin.ToString().LastIndexOf(indexValue) + 1));
 
                         Point renderTransformOrigin = new Point(RenderTransformOriginX, renderTransformOriginY);
                         fields[x, y].Image.RenderTransformOrigin = renderTransformOrigin;
-
+                        */
 
                         RotateTransform rotateTransform = (e.Data.GetData("image") as Image).RenderTransform as RotateTransform;
 
