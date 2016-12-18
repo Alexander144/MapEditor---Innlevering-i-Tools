@@ -111,6 +111,9 @@ namespace MVVM_Light_eksempel
             {
 
                 BitmapImage imageBitmap = new BitmapImage(new Uri(t.Path));
+                fields[i, j].Image.RenderTransform = new RotateTransform((double) t.RotationAngle);
+                fields[i, j].Image.RenderTransformOrigin = new Point(0.5, 0.5);
+
                 fields[i, j].Image.Source = imageBitmap;
                 fields[i, j].Path = t.Path;
                 fields[i, j].PositionX = (int) (50 * t.PositionX + 20);

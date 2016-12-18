@@ -2,18 +2,16 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="LinqToSQLClasses">
   <DataContextMoniker Name="/LinqToSQLClassesDataContext" />
   <nestedChildShapes>
-
-    <classShape Id="d0bfb590-75d3-42a1-b3ec-77574ae46424" absoluteBounds="7.5, 2.125, 2, 3.3093082682291666">
+    <classShape Id="a26e8c6a-7981-4eb9-bd23-98c85cac4485" absoluteBounds="4.75, 2.375, 2, 3.3093082682291666">
       <DataClassMoniker Name="/LinqToSQLClassesDataContext/Tile" />
       <nestedChildShapes>
-        <elementListCompartment Id="8a669b7c-ecb1-417c-a1c3-8ee8507c86ee" absoluteBounds="7.515, 2.585, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="2e6fba8e-0a9a-431b-a346-c4ffa7d59e44" absoluteBounds="4.765, 2.835, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="fce92bed-65b7-40c8-938e-59f0dcf763c8" absoluteBounds="5.25, 2.625, 2, 1.3862939453125">
+    <classShape Id="a1c3c6a1-5fbc-4dd9-97fa-20aa5fd27b7b" absoluteBounds="8.375, 3.625, 2, 1.3862939453125">
       <DataClassMoniker Name="/LinqToSQLClassesDataContext/User" />
       <nestedChildShapes>
-        <elementListCompartment Id="0e8e66b0-8b9b-4b96-99fd-dbbc3d79897e" absoluteBounds="5.265, 3.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-
+        <elementListCompartment Id="ac3c5b47-be77-49be-9a1d-8a04e119ef84" absoluteBounds="8.39, 4.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

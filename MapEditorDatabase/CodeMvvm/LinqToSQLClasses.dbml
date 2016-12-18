@@ -6,7 +6,7 @@
       <Column Name="PositionX" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="PositionY" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Path" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="RotationAngle" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RotationAngle" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="TopLeft" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="TopMiddle" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="TopRight" Type="System.Boolean" DbType="Bit" CanBeNull="true" />

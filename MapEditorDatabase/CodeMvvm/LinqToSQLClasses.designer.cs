@@ -99,7 +99,7 @@ namespace CodeMvvm
 		
 		private string _Path;
 		
-		private System.Nullable<int> _RotationAngle;
+		private System.Nullable<double> _RotationAngle;
 		
 		private System.Nullable<bool> _TopLeft;
 		
@@ -129,7 +129,7 @@ namespace CodeMvvm
     partial void OnPositionYChanged();
     partial void OnPathChanging(string value);
     partial void OnPathChanged();
-    partial void OnRotationAngleChanging(System.Nullable<int> value);
+    partial void OnRotationAngleChanging(System.Nullable<double> value);
     partial void OnRotationAngleChanged();
     partial void OnTopLeftChanging(System.Nullable<bool> value);
     partial void OnTopLeftChanged();
@@ -234,8 +234,8 @@ namespace CodeMvvm
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RotationAngle", DbType="Int")]
-		public System.Nullable<int> RotationAngle
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RotationAngle", DbType="Float")]
+		public System.Nullable<double> RotationAngle
 		{
 			get
 			{
